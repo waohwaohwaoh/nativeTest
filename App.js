@@ -1,9 +1,9 @@
 import { Navigation } from 'react-native-navigation';
 
-import Screen1 from './screens/Screen1';
-import Screen2 from './screens/Screen2';
-import Screen3 from './screens/Screen3';
-import Screen4 from './screens/Screen4';
+import Screen1 from './screens/Search';
+import Screen2 from './screens/Analytics';
+import Screen3 from './screens/PersonalArea';
+import Screen4 from './screens/Favorites';
 
 export default () => {
   Navigation.registerComponent('Screen1', () => Screen1);
@@ -13,18 +13,32 @@ export default () => {
   Navigation.startTabBasedApp({
       tabs: [
         {
-          label: 'One',
+          label: 'Поиск',
           screen: 'Screen1',
-          icon: require('./images/icon1.png'),
-          selectedIcon: require('./images/icon1_selected.png'),
-          title: 'Screen One'
+          icon: require('./images/seacrh.png'),
+          selectedIcon: require('./images/favorites_active.png'),
+          title: 'Поиск закупок'
         },
         {
-          label: 'Two',
+          label: 'Избранное',
           screen: 'Screen2',
-          icon: require('./images/icon2.png'),
-          selectedIcon: require('./images/icon2_selected.png'),
-          title: 'Screen Two'
+          icon: require('./images/favorites.png'),
+          selectedIcon: require('./images/favorites_active.png'),
+          title: 'Избранное'
+        },
+        {
+          label:'Аналитика',
+          screen:'Screen3',
+          icon: require('./images/graph.png'),
+          selectedIcon: require('./images/graph_active.png'),
+          title: 'Аналитика'
+        },
+        {
+          label:'Кабинет',
+          screen:'Screen4',
+          icon:require('./images/personal_area.png'),
+          selectedIcon:require('./images/personal_area_active.png'),
+          title:'Кабинет'
         }
       ]
     });

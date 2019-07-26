@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import Container from '../components/Container';
+import Header from '../components/Header';
 
 class Screen extends Component {
   handlePress = () => {
@@ -12,10 +13,16 @@ class Screen extends Component {
 
   render() {
     return (
-      <Container
-        backgroundColor="#F44336"
-        onPress={this.handlePress}
-      />
+      <View>
+        <Header/>
+        <Container
+          backgroundColor="#F44336"
+          onPress={this.handlePress}
+        />
+
+      </View>
+      
+      
     );
   }
 }

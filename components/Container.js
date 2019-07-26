@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Header from '../components/Header';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,12 +16,13 @@ const styles = StyleSheet.create({
 });
 
 const Container = ({ backgroundColor, onPress, children }) => (
-  <View style={[styles.container, { backgroundColor }]}>
-    <TouchableOpacity onPress={onPress}>
-      <Text style={styles.text}>{backgroundColor}</Text>
-    </TouchableOpacity>
-    {children}
-  </View>
+   <View style={[styles.container, { backgroundColor }]}>
+      <TouchableOpacity onPress={onPress}>
+       <Text style={styles.text}>{backgroundColor}</Text>
+      </TouchableOpacity>
+      {children}
+    </View>
+  
 );
 
 export default Container;
