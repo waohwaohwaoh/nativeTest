@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import Container from '../components/Container';
-import Header from '../components/Header';
+import {Header,Container} from '../components';
+import {heightWindow, widthWindow} from '../constant';
 
 class Screen extends Component {
   handlePress = () => {
@@ -14,7 +14,7 @@ class Screen extends Component {
   render() {
     return (
       <View>
-        <Header/>
+        <Header title={heightWindow}/>
         <Container
           backgroundColor="#F44336"
           onPress={this.handlePress}

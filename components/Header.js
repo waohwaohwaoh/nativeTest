@@ -1,15 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-
 const styles = StyleSheet.create({
   viewStyle: {
     backgroundColor:'#30d0fe',
-    alignItems:"flex-end",
-    height:116,
+    alignItems:"center",
+    height:40,
     justifyContent: 'center',
-    paddingLeft:22,
-    paddingTop:71,
     shadowColor:'#000',
     shadowOffset:{width:0, height:2},
     shadowOpacity:0.2,
@@ -22,10 +19,10 @@ const styles = StyleSheet.create({
     fontFamily:'AvenirNext-DemiBold'
   },
 });
-const Header = () => (
+const Header = ({title}) => (
   <View style={styles.viewStyle}>
-      <Text style={styles.text}>{'Зкшмуещы'}</Text>
+      <Text style={styles.text}>{title}</Text>
   </View>
 );
 
-export default Header;
+export {Header};

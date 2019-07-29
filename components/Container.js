@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Header from '../components/Header';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,4 +24,4 @@ const Container = ({ backgroundColor, onPress, children }) => (
   
 );
 
-export default Container;
+export {Container};

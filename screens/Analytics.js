@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
-import Container from '../components/Container';
+import {Container} from '../components';
 
 class Screen extends Component {
   render() {
