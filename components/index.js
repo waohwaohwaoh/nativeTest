@@ -1,2 +1,6 @@
 export * from './Header'
 export * from './Container'
+export * from './SearchBar'
+export * from './LawButton'
+export * from './LawButtonContainer'
+export * from './SearchParametr'
