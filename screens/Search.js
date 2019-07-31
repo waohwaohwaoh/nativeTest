@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View,StyleSheet } from 'react-native';
+import { Text, View,StyleSheet, Button } from 'react-native';
 import {SearchBar,Container, LawButton, LawButtonContainer,SearchParametr} from '../components';
 import {heightWindow, widthWindow, searchBarImage,LIGHTGREY} from '../constant';
  '../constant';
@@ -14,11 +14,12 @@ const styles=StyleSheet.create({
     marginLeft:20, 
   }
 })
-let tempCheckValues=[];
+// let tempCheckValues=[];
 
 class Screen extends Component {
   state = {
-    checkBoxChecked:[]
+    checkBoxChecked:[],
+    searchBarValue:''
   }
   handlePress = () => {
     this.props.navigator.push({
@@ -27,36 +28,33 @@ class Screen extends Component {
     });
   };
   
-  onChangeSearchBar=() =>{
-
-  }
-
-  onChangeCheckbox=(id,value)=>{
+  onChangeSearchBar=(value) =>{
     this.setState({
-      checkBoxChecked: tempCheckValues
-    })
-
-    let tempCheckBoxChecked = this.state.checkBoxChecked;
-    tempCheckBoxChecked[id] = !value;
-
-    this.setState({
-      checkBoxChecked: tempCheckBoxChecked
+      searchBarValue:value
     })
   }
 
-
+  updateCheckboxValue=(value)=>{
+    this.setState({
+      checkBoxChecked:value
+    })
+  }
+  pressMe=()=>{
+    alert(this.state.checkBoxChecked);
+  }
   render() {
+    const {searchBarValue}=this.state;
     const checkbox=[
       {
-        id:1,
+        id:0,
         nameLaw:'№ 44-ФЗ'
       },
       {
-        id:2,
+        id:1,
         nameLaw:'№ 223-ФЗ'
       },
       {
-        id:3,
+        id:2,
         nameLaw:'ПП РФ 615'
       }
     ];
@@ -80,12 +78,11 @@ class Screen extends Component {
           placeholder="Ключевое слово"
           onChangeText={this.onChangeSearchBar}
           placeholderColor='#6F7C98'
+          value={searchBarValue}
         />
         <LawButtonContainer
-          checkboxArray={checkbox}
-          tempCheckValues={tempCheckValues}
-          checkValues={this.state.checkBoxChecked}
-          onPressCheckbox={this.onChangeCheckbox}
+          checkBoxArray={checkbox}
+          updateCheckboxValue={this.updateCheckboxValue}
         />
         <View style={container}>
           {
@@ -101,6 +98,7 @@ class Screen extends Component {
             })
           }
         </View>
+        <Button title="Click" onPress={this.pressMe}></Button>
       </View>
     );
   }

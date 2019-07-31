@@ -1,35 +1,60 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {StyleSheet,View} from 'react-native';
 import {LawButton} from '../components';
 import {widthWindow} from '../constant';
 
-const LawButtonContainer=({
-    checkboxArray,
-    tempCheckValues,
-    checkValues,
-    onPressCheckbox
-})=>{
-    const {container}=styles;
-    return(
-        <View style={container}>
-          {
-            checkboxArray.map(item=>{
-              
-              const {id,nameLaw}=item;
-              tempCheckValues[id] = false;
 
-              return(
-                <LawButton
-                  nameLaw={nameLaw}
-                  key={id}
-                  onPressCheckbox={()=>onPressCheckbox(id,checkValues[id])}
-                  checked={checkValues[id]}
-                />
-              )
-            })
-          }
+class LawButtonContainer extends Component{
+    constructor(props){
+      super(props);
+      this.state={
+        tempCheckValues:[]
+      }      
+    }
+    onPressCheckbox=(id,value)=>{
+        let tempCheckBoxChecked=this.state.tempCheckValues;
+        tempCheckBoxChecked[id]=!value;
+        this.setState({
+           tempCheckValues:tempCheckBoxChecked
+        })
+        this.props.updateCheckboxValue(tempCheckBoxChecked)
+    }
+    componentDidMount(){
+      const {checkBoxArray}=this.props;
+      let tempValue=[];
+      checkBoxArray.map(item=>{
+        return tempValue.push(false)
+      })
+
+      this.setState({
+        tempCheckValues:tempValue
+      })
+      this.props.updateCheckboxValue(tempValue)
+    }
+
+    render(){
+      const {container}=styles;
+      const {checkBoxArray}=this.props;
+      const {tempCheckValues}=this.state;
+      return(
+        <View style={container}>
+             {
+                checkBoxArray.map(item=>{
+                
+                const {id,nameLaw}=item;        
+                return(
+                    <LawButton
+                       nameLaw={nameLaw}
+                       key={id}
+                       onPressCheckbox={()=>this.onPressCheckbox(id,tempCheckValues[id])}
+                       checked={tempCheckValues[id]}
+                     />
+                     )
+                })
+             }
         </View>
-    )
+      )
+    }
 }
 
 const styles=StyleSheet.create({

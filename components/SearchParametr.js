@@ -1,6 +1,9 @@
 import React from 'react';
 import {View,TouchableOpacity,Image,Text,StyleSheet} from 'react-native';
 import {arrowRight, widthWindow,LIGHTGREY} from '../constant'
+import PropTypes from 'prop-types'
+
+
 
 const SearchParametr = ({
     icon,
