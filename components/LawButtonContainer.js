@@ -2,52 +2,38 @@ import React, {Component} from 'react';
 import {StyleSheet,View} from 'react-native';
 import {LawButton} from '../components';
 import {widthWindow} from '../constant';
-
+import PropTypes from 'prop-types'
 
 class LawButtonContainer extends Component{
     constructor(props){
       super(props);
-      this.state={
-        tempCheckValues:[]
-      }      
     }
-    onPressCheckbox=(id,value)=>{
-        let tempCheckBoxChecked=this.state.tempCheckValues;
-        tempCheckBoxChecked[id]=!value;
-        this.setState({
-           tempCheckValues:tempCheckBoxChecked
-        })
-        this.props.updateCheckboxValue(tempCheckBoxChecked)
+    static propTypes={
+      laws:PropTypes.array.isRequired,
+      checkedLaws: PropTypes.array.isRequired,
+      updateCheckboxValue: PropTypes.func.isRequired
     }
-    componentDidMount(){
-      const {checkBoxArray}=this.props;
-      let tempValue=[];
-      checkBoxArray.map(item=>{
-        return tempValue.push(false)
-      })
-
-      this.setState({
-        tempCheckValues:tempValue
-      })
-      this.props.updateCheckboxValue(tempValue)
+    onPressCheckbox=(key)=>{
+        const {checkedLaws,updateCheckboxValue}=this.props;
+        const newCheckedLaws=checkedLaws.indexOf(key)!==-1?checkedLaws.filter(item=>item!==key):[...checkedLaws,key] 
+        updateCheckboxValue( newCheckedLaws);
     }
 
     render(){
       const {container}=styles;
-      const {checkBoxArray}=this.props;
-      const {tempCheckValues}=this.state;
+      const {laws,checkedLaws}=this.props;
       return(
         <View style={container}>
              {
-                checkBoxArray.map(item=>{
+                laws.map(item=>{
                 
-                const {id,nameLaw}=item;        
+                const {key,label}=item;        
                 return(
                     <LawButton
-                       nameLaw={nameLaw}
-                       key={id}
-                       onPressCheckbox={()=>this.onPressCheckbox(id,tempCheckValues[id])}
-                       checked={tempCheckValues[id]}
+                       nameLaw={label}
+                       key={key}
+                       onPressCheckbox={()=>this.onPressCheckbox(key)}
+                       checked={checkedLaws.indexOf(key)!==-1}
                      />
                      )
                 })

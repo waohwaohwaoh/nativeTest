@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View,StyleSheet, Button } from 'react-native';
 import {SearchBar,Container, LawButton, LawButtonContainer,SearchParametr} from '../components';
-import {heightWindow, widthWindow, searchBarImage,LIGHTGREY} from '../constant';
- '../constant';
+import {heightWindow, widthWindow, searchBarImage,LIGHTGREY,laws,parametrs} from '../constant';
+
 
 
 const styles=StyleSheet.create({
@@ -14,20 +14,27 @@ const styles=StyleSheet.create({
     marginLeft:20, 
   }
 })
-// let tempCheckValues=[];
 
 class Screen extends Component {
-  state = {
-    checkBoxChecked:[],
-    searchBarValue:''
-  }
-  handlePress = () => {
-    this.props.navigator.push({
-      screen: 'Screen3',
-      title: 'Screen 3',
-    });
-  };
   
+  state = {
+    checkedLaws:[],
+    searchBarValue:'',
+    rangePrice:{
+      startPrice:null,
+      endPrice:'20'
+    }
+  }
+  
+  updatePriceValue=(startPrice,endPrice)=>{
+    this.setState({
+      rangePrice:{
+        startPrice,
+        endPrice
+      }
+    })
+  }
+
   onChangeSearchBar=(value) =>{
     this.setState({
       searchBarValue:value
@@ -36,40 +43,12 @@ class Screen extends Component {
 
   updateCheckboxValue=(value)=>{
     this.setState({
-      checkBoxChecked:value
+      checkedLaws:value
     })
   }
-  pressMe=()=>{
-    alert(this.state.checkBoxChecked);
-  }
+
   render() {
-    const {searchBarValue}=this.state;
-    const checkbox=[
-      {
-        id:0,
-        nameLaw:'№ 44-ФЗ'
-      },
-      {
-        id:1,
-        nameLaw:'№ 223-ФЗ'
-      },
-      {
-        id:2,
-        nameLaw:'ПП РФ 615'
-      }
-    ];
-    const parametrs=[
-      {
-        id:1,
-        icon:require('../images/price_parametr.png'),
-        title:'Цена'
-      },
-      {
-        id:2,
-        icon:require('../images/price_parametr.png'),
-        title:'Цена'
-      }
-    ];
+    const {checkedLaws,searchBarValue,rangePrice}=this.state;
     const {container}=styles;
     return (
       <View>
@@ -81,8 +60,9 @@ class Screen extends Component {
           value={searchBarValue}
         />
         <LawButtonContainer
-          checkBoxArray={checkbox}
+          checkedLaws={checkedLaws}
           updateCheckboxValue={this.updateCheckboxValue}
+          laws={laws}
         />
         <View style={container}>
           {
@@ -93,12 +73,13 @@ class Screen extends Component {
                   key={id}
                   icon={icon}
                   title={title}
+                  rangePrice={rangePrice}
+                  updatePriceValue={this.updatePriceValue}
                 />
               )
             })
           }
         </View>
-        <Button title="Click" onPress={this.pressMe}></Button>
       </View>
     );
   }

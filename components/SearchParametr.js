@@ -1,34 +1,79 @@
-import React from 'react';
-import {View,TouchableOpacity,Image,Text,StyleSheet} from 'react-native';
+import React, {Component} from 'react';
+import {View,TouchableOpacity,Image,Text,StyleSheet,Button,TextInput} from 'react-native';
 import {arrowRight, widthWindow,LIGHTGREY} from '../constant'
 import PropTypes from 'prop-types'
 
-
-
-const SearchParametr = ({
-    icon,
-    title
-})=>{
-    const {container,iconStyle,titleStyle,descriptionStyle,flexEnd}=styles;
-    return(
-        <TouchableOpacity style={container}>
-            <Image source={icon} style={iconStyle}></Image>
-            <Text style={titleStyle}>{title}</Text>
-            <View style={flexEnd}>
-                <Text style={descriptionStyle}>{'Любой'}</Text>
-                <Image source={arrowRight}></Image>
-            </View>
-        </TouchableOpacity>
-    )
+class SearchParametr extends Component{
+    constructor(props){
+        super(props)
+        this.state={
+            open:false
+        }
+    }
+    openParametr=()=>{
+        this.setState({
+            open:!this.state.open
+        })
+    }
+    render(){
+        const {parametr,expansion, expansionInput,expansionText,iconStyle,titleStyle,descriptionStyle,flexEnd,mainContainer}=styles;
+        const {icon,title,rangePrice:{startPrice,endPrice}}=this.props;
+        const {open}=this.state;
+        return(
+            <View  style={mainContainer}>
+                <TouchableOpacity onPress={this.openParametr} style={parametr}>
+                    <Image source={icon} style={iconStyle}></Image>
+                    <Text style={titleStyle}>{title}</Text>
+                    {!open && 
+                        <View style={flexEnd}>
+                            <Text style={descriptionStyle}>{'Любой'}</Text>
+                            <Image source={arrowRight}></Image>
+                        </View>
+                    }
+                </TouchableOpacity>
+                {open && 
+                    <View style={expansion}>
+                        <Text style={expansionText}>{'от'}</Text>
+                        <TextInput
+                            placeholder='Любая'
+                            style={expansionInput}
+                            value={startPrice!==null?startPrice:''}
+                        />
+                        <View style={flexEnd}>
+                            <Text style={expansionText}>{'до'}</Text>
+                            <TextInput
+                                placeholder='Любая'
+                                style={expansionInput}
+                                value={endPrice!==null?endPrice:''}
+                            />
+                        </View>
+                    </View>
+                }
+            </View>    
+        )
+    }
 }
 
 const styles=StyleSheet.create({
-    container:{
+    mainContainer:{
+        borderBottomWidth: 1,
+        borderColor: LIGHTGREY,
+    },
+    expansion:{
+        height:40,
+        flexDirection:"row",
+        alignItems:"center",
+    },
+    expansionInput:{
+        width:widthWindow/3
+    },
+    expansionText:{
+        marginRight:1
+    },
+    parametr:{
         flexDirection:'row',
         justifyContent:'flex-start',
         alignItems:'center',
-        borderBottomWidth: 1,
-        borderColor: LIGHTGREY,
         height: 60 
     },
     flexEnd:{
