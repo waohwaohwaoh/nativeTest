@@ -1,19 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View,StyleSheet, Button } from 'react-native';
-import {SearchBar,Container, LawButton, LawButtonContainer,SearchParametr} from '../components';
+import {SearchBar,Container, SearchButton, LawButtonContainer,SearchParametr} from '../components';
 import {heightWindow, widthWindow, searchBarImage,LIGHTGREY,laws,parametrs} from '../constant';
 
-
-
-const styles=StyleSheet.create({
-  container:{
-    marginTop: 35,
-    borderTopWidth: 1,
-    borderColor:LIGHTGREY,
-    width: widthWindow - 40,
-    marginLeft:20, 
-  }
-})
 
 class Screen extends Component {
   
@@ -22,23 +11,33 @@ class Screen extends Component {
     searchBarValue:'',
     rangePrice:{
       startPrice:null,
-      endPrice:'20'
+      endPrice:null
     }
   }
   
-  updatePriceValue=(startPrice,endPrice)=>{
+  updateStartPrice=(value)=>{
     this.setState({
       rangePrice:{
-        startPrice,
-        endPrice
+        ...this.state.rangePrice,
+        startPrice:value
       }
     })
+  }
+  updateEndPrice=(value)=>{
+    this.setState({
+      rangePrice:{
+        ...this.state.rangePrice,
+        endPrice:value
+      }
+    })
+    
   }
 
   onChangeSearchBar=(value) =>{
     this.setState({
       searchBarValue:value
     })
+    
   }
 
   updateCheckboxValue=(value)=>{
@@ -46,12 +45,12 @@ class Screen extends Component {
       checkedLaws:value
     })
   }
-
+  
   render() {
     const {checkedLaws,searchBarValue,rangePrice}=this.state;
-    const {container}=styles;
+    const {container,containerParam}=styles;
     return (
-      <View>
+      <View style={container}>
         <SearchBar
           iconLeft={searchBarImage}
           placeholder="Ключевое слово"
@@ -64,7 +63,7 @@ class Screen extends Component {
           updateCheckboxValue={this.updateCheckboxValue}
           laws={laws}
         />
-        <View style={container}>
+        <View style={containerParam}>
           {
             parametrs.map(item=>{
               const {id, icon, title}=item;
@@ -74,15 +73,35 @@ class Screen extends Component {
                   icon={icon}
                   title={title}
                   rangePrice={rangePrice}
-                  updatePriceValue={this.updatePriceValue}
+                  updateStartPrice={this.updateStartPrice}
+                  updateEndPrice={this.updateEndPrice}
                 />
               )
             })
           }
         </View>
+        <SearchButton
+            title={""}
+        />
       </View>
     );
   }
 }
+
+const styles=StyleSheet.create({
+  containerParam:{
+    marginTop: 35,
+    borderTopWidth: 1,
+    borderColor:LIGHTGREY,
+    width: widthWindow - 40,
+    marginLeft:20, 
+  },
+  container:{
+    flexDirection:'column'
+  }
+})
+
+
+
 
 export default Screen;

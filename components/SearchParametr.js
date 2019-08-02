@@ -15,6 +15,14 @@ class SearchParametr extends Component{
             open:!this.state.open
         })
     }
+    updateStartPrice=(startPrice)=>{
+        const {updateStartPrice}=this.props;
+        startPrice.trim()!==''?updateStartPrice(startPrice):updateStartPrice(null);
+    }
+    updateEndPrice=(endPrice)=>{
+        const {updateEndPrice}=this.props;
+        endPrice.trim()!==''?updateEndPrice(endPrice):updateEndPrice(null);
+    }
     render(){
         const {parametr,expansion, expansionInput,expansionText,iconStyle,titleStyle,descriptionStyle,flexEnd,mainContainer}=styles;
         const {icon,title,rangePrice:{startPrice,endPrice}}=this.props;
@@ -38,6 +46,7 @@ class SearchParametr extends Component{
                             placeholder='Любая'
                             style={expansionInput}
                             value={startPrice!==null?startPrice:''}
+                            onChangeText={this.updateStartPrice}
                         />
                         <View style={flexEnd}>
                             <Text style={expansionText}>{'до'}</Text>
@@ -45,6 +54,7 @@ class SearchParametr extends Component{
                                 placeholder='Любая'
                                 style={expansionInput}
                                 value={endPrice!==null?endPrice:''}
+                                onChangeText={this.updateEndPrice}
                             />
                         </View>
                     </View>
