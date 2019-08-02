@@ -47,6 +47,7 @@ class SearchParametr extends Component{
                             style={expansionInput}
                             value={startPrice!==null?startPrice:''}
                             onChangeText={this.updateStartPrice}
+                            keyboardType="numeric"
                         />
                         <View style={flexEnd}>
                             <Text style={expansionText}>{'до'}</Text>
@@ -55,6 +56,7 @@ class SearchParametr extends Component{
                                 style={expansionInput}
                                 value={endPrice!==null?endPrice:''}
                                 onChangeText={this.updateEndPrice}
+                                keyboardType="numeric"
                             />
                         </View>
                     </View>

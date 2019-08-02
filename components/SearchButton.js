@@ -1,22 +1,33 @@
 import React from 'react'
-import {TouchableOpacity,Button, StyleSheet,View,Text} from 'react-native'
+import {TouchableOpacity,Button, StyleSheet,View,Text,ActivityIndicator} from 'react-native'
 import {widthWindow,BLUE,WHITE} from '../constant'
 
 const SearchButton=({
-    onPress,
-    title   
+    isLoading,
+    title,
+    updateLoading   
 }
 )=>{
     const {container,button,text}=styles;
     return(
         <View style={container}>
            <TouchableOpacity
-               onPress={onPress}
+               onPress={updateLoading}
                style={button}
             >
-                <Text style={text}>
-                    {`Показать закупки ${title}`}
-                </Text>
+                {
+                    isLoading?
+                    <ActivityIndicator
+                        size="large"
+                        color={WHITE}
+                    >
+
+                    </ActivityIndicator>
+                    :<Text style={text}>
+                        {`Показать закупки ${title}`}
+                    </Text>    
+                }
+                
             </TouchableOpacity>
         </View>
         

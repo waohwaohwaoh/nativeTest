@@ -11,7 +11,8 @@ class Screen extends Component {
     searchBarValue:'',
     rangePrice:{
       startPrice:null,
-      endPrice:null
+      endPrice:null,
+      isLoading:false
     }
   }
   
@@ -46,8 +47,19 @@ class Screen extends Component {
     })
   }
   
+  updateLoading=()=>{
+    this.setState({
+      isLoading:!this.state.isLoading
+    })
+    setTimeout((()=>{
+      this.setState({
+        isLoading:!this.state.isLoading
+      })
+    }),5000)
+  }
+
   render() {
-    const {checkedLaws,searchBarValue,rangePrice}=this.state;
+    const {checkedLaws,searchBarValue,rangePrice,isLoading}=this.state;
     const {container,containerParam}=styles;
     return (
       <View style={container}>
@@ -82,6 +94,8 @@ class Screen extends Component {
         </View>
         <SearchButton
             title={""}
+            isLoading={isLoading}
+            updateLoading={this.updateLoading}
         />
       </View>
     );
