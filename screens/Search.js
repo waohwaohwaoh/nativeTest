@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Text, View,StyleSheet, Button } from 'react-native';
 import {SearchBar,Container, SearchButton, LawButtonContainer,SearchParametr} from '../components';
 import {heightWindow, widthWindow, searchBarImage,LIGHTGREY,laws,parametrs} from '../constant';
+import {searchZakup} from '../actions/index'
+
 
 
 class Screen extends Component {
@@ -11,9 +13,10 @@ class Screen extends Component {
     searchBarValue:'',
     rangePrice:{
       startPrice:null,
-      endPrice:null,
-      isLoading:false
-    }
+      endPrice:null
+    },
+    isLoading:false,
+    data:{}
   }
   
   updateStartPrice=(value)=>{
@@ -47,19 +50,20 @@ class Screen extends Component {
     })
   }
   
-  updateLoading=()=>{
+  updateLoading=(value)=>{
     this.setState({
-      isLoading:!this.state.isLoading
+      isLoading:value
     })
-    setTimeout((()=>{
-      this.setState({
-        isLoading:!this.state.isLoading
-      })
-    }),5000)
+  }
+
+  updateData=(data)=>{
+    this.setState({
+      data
+    })
   }
 
   render() {
-    const {checkedLaws,searchBarValue,rangePrice,isLoading}=this.state;
+    const {checkedLaws,searchBarValue,rangePrice,isLoading,data}=this.state;
     const {container,containerParam}=styles;
     return (
       <View style={container}>
@@ -93,10 +97,12 @@ class Screen extends Component {
           }
         </View>
         <SearchButton
-            title={""}
+            title={JSON.stringify(data) == "{}"?'Поиск':`Показать закупки ${data.total}`}
             isLoading={isLoading}
             updateLoading={this.updateLoading}
+            updateData={this.updateData}
         />
+      
       </View>
     );
   }

@@ -1,18 +1,34 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {TouchableOpacity,Button, StyleSheet,View,Text,ActivityIndicator} from 'react-native'
-import {widthWindow,BLUE,WHITE} from '../constant'
+import {widthWindow,BLUE,WHITE,url} from '../constant'
 
-const SearchButton=({
-    isLoading,
-    title,
-    updateLoading   
-}
-)=>{
-    const {container,button,text}=styles;
-    return(
+class SearchButton extends Component{
+    constructor(props){
+        super(props)
+    }
+    
+    updateLoading=()=>{
+        let load=this.props.isLoading;
+        this.props.updateLoading(!load)
+    }
+
+    updateData= async () => {
+        this.updateLoading(this.props.isLoading);
+        const respone=await fetch(url);
+        const data =await respone.json();
+        this.props.updateData(data);
+        setTimeout(()=>{this.updateLoading(this.props.isLoading)},5000)
+        
+    }
+    
+    
+    render(){
+        const {container,button,text}=styles;
+        const{isLoading,title,updateLoading}=this.props;
+        return(
         <View style={container}>
            <TouchableOpacity
-               onPress={updateLoading}
+               onPress={this.updateData}
                style={button}
             >
                 {
@@ -24,14 +40,14 @@ const SearchButton=({
 
                     </ActivityIndicator>
                     :<Text style={text}>
-                        {`Показать закупки ${title}`}
+                        {title}
                     </Text>    
                 }
                 
             </TouchableOpacity>
         </View>
-        
-    )
+        )
+    }
 }
 
 const styles=StyleSheet.create({

@@ -46,3 +46,6 @@ export const parametrs=[
         title:'Цена'
     }
 ]
+
+//url
+ export const url='http://zakupki.gov.ru/api/mobile/proxy/epz/order/extendedsearch/results.html?morphology=on&pageNumber=1&sortBy=PUBLISH_DATE&sortDirection=false&fz44=on&fz223=on&currencyId=-1';

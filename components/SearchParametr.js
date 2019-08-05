@@ -27,6 +27,18 @@ class SearchParametr extends Component{
         const {parametr,expansion, expansionInput,expansionText,iconStyle,titleStyle,descriptionStyle,flexEnd,mainContainer}=styles;
         const {icon,title,rangePrice:{startPrice,endPrice}}=this.props;
         const {open}=this.state;
+        let description=''
+        if(startPrice===null && endPrice===null){
+            description='Любая';
+        }
+        else if(startPrice===null && endPrice!==null){
+            description=`до ${endPrice}`
+        }
+        else if(startPrice!==null && endPrice===null){
+            description=`от ${startPrice}`
+        }
+        else
+            description=`от ${startPrice} до ${endPrice}`
         return(
             <View  style={mainContainer}>
                 <TouchableOpacity onPress={this.openParametr} style={parametr}>
@@ -34,7 +46,7 @@ class SearchParametr extends Component{
                     <Text style={titleStyle}>{title}</Text>
                     {!open && 
                         <View style={flexEnd}>
-                            <Text style={descriptionStyle}>{'Любой'}</Text>
+                            <Text style={descriptionStyle}>{description}</Text>
                             <Image source={arrowRight}></Image>
                         </View>
                     }
