@@ -20,10 +20,8 @@ class Screen extends Component {
   state = {
     checkedLaws:[],
     searchBarValue:'',
-    rangePrice:{
-      startPrice:null,
-      endPrice:'20'
-    }
+    startPrice:null,
+    endPrice:null
   }
   
   updatePriceValue=(startPrice,endPrice)=>{

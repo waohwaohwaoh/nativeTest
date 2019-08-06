@@ -10,6 +10,7 @@ class SearchParametr extends Component{
             open:false
         }
     }
+    
     openParametr=()=>{
         this.setState({
             open:!this.state.open
