@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {StyleSheet,View} from 'react-native';
+import {StyleSheet,View,TouchableOpacity,Image,Text} from 'react-native';
 import {LawButton} from '../components';
-import {widthWindow} from '../constant';
+import {widthWindow,WHITE,BLUE,LIGHTGREY,acceptImage, acceptImageActive} from '../constant';
 import PropTypes from 'prop-types'
 
 class LawButtonContainer extends Component{
@@ -20,21 +20,23 @@ class LawButtonContainer extends Component{
     }
 
     render(){
-      const {container}=styles;
+      const {mainContainer,button,imageStyle,textStyle}=styles;
       const {laws,checkedLaws}=this.props;
       return(
-        <View style={container}>
+        <View style={mainContainer}>
              {
                 laws.map(item=>{
                 
                 const {key,label}=item;        
                 return(
-                    <LawButton
-                       nameLaw={label}
-                       key={key}
-                       onPressCheckbox={()=>this.onPressCheckbox(key)}
-                       checked={checkedLaws.indexOf(key)!==-1}
-                     />
+                    <TouchableOpacity style={[button,{backgroundColor:checkedLaws.indexOf(key)!==-1?BLUE:WHITE}]} onPress={()=>this.onPressCheckbox(key)} key={key}>
+                      <View style={imageStyle}>
+                        <Image
+                          source={checkedLaws.indexOf(key)!==-1?acceptImage:acceptImageActive}>
+                        </Image>
+                      </View>
+                      <Text style={[textStyle,{color:checkedLaws.indexOf(key)!==-1?WHITE:LIGHTGREY}]}>{label} </Text>
+                    </TouchableOpacity> 
                      )
                 })
              }
@@ -44,13 +46,31 @@ class LawButtonContainer extends Component{
 }
 
 const styles=StyleSheet.create({
-    container:{
-        flexDirection:'row',
-        justifyContent:'flex-start',
-        marginLeft: 15,
-        width: widthWindow - 30,
-        marginTop: 23
-    }
+    mainContainer:{
+      flexDirection:'row',
+      justifyContent:'flex-start',
+      marginLeft: 15,
+      width: widthWindow - 30,
+      marginTop: 23
+    },
+    button:{
+      paddingLeft: 15,
+      marginRight:5,
+      flexDirection:'row',
+      paddingRight: 5,
+      height: 24,
+      borderRadius: 20
+  },
+  textStyle:{
+      fontSize: 11,
+      fontFamily:'IBM Plex Sans',
+      paddingLeft: 9,
+      paddingTop:5,
+      color:'#fff'
+  },
+  imageStyle:{
+      paddingTop: 9
+  }
 })
 
 export {LawButtonContainer}

@@ -17,14 +17,14 @@ class SearchButton extends Component{
         const respone=await fetch(url);
         const data =await respone.json();
         this.props.updateData(data);
-        setTimeout(()=>{this.updateLoading(this.props.isLoading)},5000)
+        this.updateLoading(this.props.isLoading)
         
     }
     
     
     render(){
         const {container,button,text}=styles;
-        const{isLoading,title,updateLoading}=this.props;
+        const{isLoading,title}=this.props;
         return(
         <View style={container}>
            <TouchableOpacity

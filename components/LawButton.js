@@ -1,7 +1,8 @@
 import React from 'react'
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
 import {BLUE, LIGHTGREY, WHITE, acceptImage, acceptImageActive} from '../constant'
-
+import PropTypes from 'prop-types'
+ 
 const LawButton= ({
     checked,
     nameLaw,
@@ -21,28 +22,9 @@ const LawButton= ({
     )
 }
 
-const styles= StyleSheet.create({
-    container:{
-        paddingLeft: 15,
-        marginRight:5,
-        flexDirection:'row',
-        paddingRight: 5,
-        height: 24,
-        borderRadius: 20
-    },
-    textStyle:{
-        fontSize: 11,
-        fontFamily:'IBM Plex Sans',
-        paddingLeft: 9,
-        paddingTop:5,
-        color:'#fff'
-    },
-    textStyleActive:{
 
-    },
-    imageStyle:{
-        paddingTop: 9
-    }
+const styles= StyleSheet.create({
+   
     
 })
 
