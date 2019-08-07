@@ -15,7 +15,7 @@ class LawButtonContainer extends Component{
     }
     onPressCheckbox=(key)=>{
         const {checkedLaws,updateCheckboxValue}=this.props;
-        const newCheckedLaws=checkedLaws.indexOf(key)!==-1?checkedLaws.filter(item=>item!==key):[...checkedLaws,key] 
+        const newCheckedLaws=checkedLaws.indexOf(key)!==-1?checkedLaws.filter(item=>item!==key):[...checkedLaws,key]
         updateCheckboxValue( newCheckedLaws);
     }
 
@@ -36,7 +36,7 @@ class LawButtonContainer extends Component{
                         </Image>
                       </View>
                       <Text style={[textStyle,{color:checkedLaws.indexOf(key)!==-1?WHITE:LIGHTGREY}]}>{label} </Text>
-                    </TouchableOpacity> 
+                    </TouchableOpacity>  
                      )
                 })
              }

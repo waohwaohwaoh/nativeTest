@@ -1,5 +1,14 @@
-import {UPDATE_START_PRICE,UPDATE_END_PRICE,UPDATE_LOADING,UPDATE_DATA,ADD_CHECKBOX_VALUE,REMOVE_CHECKBOX_VALUE} from '../actions/actionTypes'
+import {UPDATE_START_PRICE,UPDATE_END_PRICE,UPDATE_LOADING,UPDATE_DATA,UPDATE_CHECKBOX_VALUE,UPDATE_SEARCHBAR_VALUE,TOGGLE_PARAMETR} from '../actions/actionTypes'
 import {combineReducers} from 'redux'
+
+function searchBarValue(state='',action){
+    switch(action.type){
+        case UPDATE_SEARCHBAR_VALUE:
+            return action.text
+        default:
+            return state
+    }
+}
 
 function rangePrice(state={},action){
     switch(action.type){
@@ -30,25 +39,26 @@ function loadingStatus(state=false, action){
 function data(state={}, action){
      switch (action.type){
          case UPDATE_DATA:
-             return{
-                 data:action.data
-             }
+             return action.data
         default:
             return state
      }
 }
 
-function checkboxLaws (state=[] , action){
+function checkedLaws (state=[] , action){
     switch (action.type){
-        case ADD_CHECKBOX_VALUE:
-            return[
-                ...state,
-                action.key
-            ]
-        case REMOVE_CHECKBOX_VALUE:
-            return state.filter(item=>{
-                return item!==action.key
-            })
+        case UPDATE_CHECKBOX_VALUE:
+            return action.key
+                
+        default:
+            return state
+    }
+}
+
+function toggleParametrs (state=[],action){
+    switch (action.type){
+        case TOGGLE_PARAMETR:
+            return action.value
         default:
             return state
     }
@@ -56,10 +66,12 @@ function checkboxLaws (state=[] , action){
 
 export const reducer=
 combineReducers({
+    searchBarValue,
     rangePrice,
     loadingStatus,
     data,
-    checkboxLaws
+    checkedLaws,
+    toggleParametrs
 })
 
   

@@ -10,10 +10,11 @@ class SearchParametr extends Component{
             open:false
         }
     }
-    openParametr=()=>{
-        this.setState({
-            open:!this.state.open
-        })
+    openParametr=(id)=>{
+        const {toggleParametrs,updateToggleParametrs}=this.props;
+        const newToggleParametrs=toggleParametrs.indexOf(id)?toggleParametrs.filter(item=>item!==id):[...toggleParametrs,id];
+        updateToggleParametrs(newToggleParametrs)
+
     }
     updateStartPrice=(startPrice)=>{
         const {updateStartPrice}=this.props;
@@ -25,8 +26,8 @@ class SearchParametr extends Component{
     }
     render(){
         const {parametr,expansion, expansionInput,expansionText,iconStyle,titleStyle,descriptionStyle,flexEnd,mainContainer}=styles;
-        const {icon,title,rangePrice:{startPrice,endPrice}}=this.props;
-        const {open}=this.state;
+        const {id,icon,title,rangePrice:{startPrice,endPrice},toggleParametrs}=this.props;
+        const open=toggleParametrs.indexOf(id)!==-1
         let description=''
         if(startPrice===null && endPrice===null){
             description='Любая';
@@ -41,7 +42,7 @@ class SearchParametr extends Component{
             description=`от ${startPrice} до ${endPrice}`
         return(
             <View  style={mainContainer}>
-                <TouchableOpacity onPress={this.openParametr} style={parametr}>
+                <TouchableOpacity onPress={()=>this.openParametr(id)} style={parametr}>
                     <Image source={icon} style={iconStyle}></Image>
                     <Text style={titleStyle}>{title}</Text>
                     {!open && 

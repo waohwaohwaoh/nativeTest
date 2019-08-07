@@ -1,9 +1,9 @@
-import {SEARCH_ZAKUP,ADD_CHECKBOX_VALUE,REMOVE_CHECKBOX_VALUE,UPDATE_DATA,UPDATE_END_PRICE,UPDATE_LOADING,UPDATE_START_PRICE} from './actionTypes';
+import {UPDATE_CHECKBOX_VALUE,UPDATE_DATA,UPDATE_END_PRICE,UPDATE_LOADING,UPDATE_START_PRICE,UPDATE_SEARCHBAR_VALUE,TOGGLE_PARAMETR} from './actionTypes';
 
-export const searchZakup=(text)=>{
+export const updateSearchbarValue=(text)=>{
     return {
-        type:SEARCH_ZAKUP,
-        payload:text
+        type:UPDATE_SEARCHBAR_VALUE,
+        text
     }
 }
 export const updateStartPrice=(startPrice=null)=>{
@@ -20,16 +20,9 @@ export const updateEndPrice=(endPrice=null)=>{
     }
 }
 
-export const addCheckboxValue=(value)=>{
+export const updateCheckboxValue=(value)=>{
     return {
-        type:ADD_CHECKBOX_VALUE,
-        key:value
-    }
-}
-
-export const removeCheckboxValue=(value)=>{
-    return {
-        type:REMOVE_CHECKBOX_VALUE,
+        type:UPDATE_CHECKBOX_VALUE,
         key:value
     }
 }
@@ -45,5 +38,12 @@ export const updateData=(data)=>{
     return {
         type:UPDATE_DATA,
         data:data
+    }
+}
+
+export const toggleParametrs=(value)=>{
+    return{
+        type:TOGGLE_PARAMETR,
+        value
     }
 }

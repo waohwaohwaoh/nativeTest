@@ -1,15 +1,22 @@
 import { Navigation } from 'react-native-navigation';
 
-import Screen1 from './screens/Search';
-import Screen2 from './screens/Analytics';
-import Screen3 from './screens/PersonalArea';
-import Screen4 from './screens/Favorites';
+import registerScreens from './navigation/register'
+import {createStore} from 'redux'
+import {Provider} from 'react-redux'
+import {reducer} from './reducers'
+
+const initialState={
+  rangePrice:{
+    startPrice:null,
+    endPrice:null
+  },
+  checkedLaws:['fz44']
+}
+const store=createStore(reducer, initialState)
+registerScreens(store,Provider);
+
 
 export default () => {
-  Navigation.registerComponent('Screen1', () => Screen1);
-  Navigation.registerComponent('Screen2', () => Screen2);
-  Navigation.registerComponent('Screen3', () => Screen3);
-  Navigation.registerComponent('Screen4', () => Screen4);
   Navigation.startTabBasedApp({
       tabs: [
         {
