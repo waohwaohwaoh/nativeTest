@@ -18,7 +18,7 @@ class SearchButton extends Component{
         const data =await respone.json();
         this.props.updateData(data);
         this.updateLoading(this.props.isLoading)
-        
+        console.log(typeof(data));
     }
     
     

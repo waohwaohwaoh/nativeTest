@@ -3,8 +3,16 @@ import { Text, View,StyleSheet, Button } from 'react-native';
 import {SearchBar,Container, SearchButton, LawButtonContainer,SearchParametr} from '../components';
 import {heightWindow, widthWindow, searchBarImage,LIGHTGREY,laws,parametrs} from '../constant';
 import {searchZakup} from '../actions/index'
+import {createStore} from 'redux'
+import {reducer} from '../reducers'
+import {updateStartPrice,updateEndPrice,addCheckboxValue,removeCheckboxValue} from '../actions'
 
-
+const initialState={
+  rangePrice:{
+    startPrice:null,
+    endPrice:null
+  }
+}
 
 class Screen extends Component {
   
@@ -61,8 +69,27 @@ class Screen extends Component {
       data
     })
   }
+  click=()=>{
+     let store=createStore(reducer, initialState);
+    console.log(store.getState());
+    let unsubscribe = store.subscribe(() =>
+      console.log(store.getState())
+    )
+
+    store.dispatch(addCheckboxValue('fz44'));
+    store.dispatch(updateStartPrice(1212))
+    store.dispatch(updateStartPrice())
+    store.dispatch(updateEndPrice(233))
+    store.dispatch(addCheckboxValue('fzasd44'))
+    store.dispatch(removeCheckboxValue('fz44'))
+    unsubscribe;
+
+  }
 
   render() {
+
+   
+    
     const {checkedLaws,searchBarValue,rangePrice,isLoading,data}=this.state;
     const {container,containerParam}=styles;
     return (
@@ -102,7 +129,7 @@ class Screen extends Component {
             updateLoading={this.updateLoading}
             updateData={this.updateData}
         />
-      
+        <Button title='click' onPress={this.click}></Button>
       </View>
     );
   }
