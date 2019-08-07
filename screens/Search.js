@@ -45,7 +45,7 @@ class Screen extends Component {
                   rangePrice={rangePrice}
                   updateStartPrice={updateStartPrice}
                   updateEndPrice={updateEndPrice}
-                  openParametrs={toggleParametrs}
+                  toggleParametrs={toggleParametrs}
                   updateToggleParametrs={updateToggleParametrs}
                 />
               )

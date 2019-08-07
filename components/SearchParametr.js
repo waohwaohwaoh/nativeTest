@@ -10,10 +10,11 @@ class SearchParametr extends Component{
             open:false
         }
     }
-    openParametr=(id)=>{
-        const {toggleParametrs,updateToggleParametrs}=this.props;
-        const newToggleParametrs=toggleParametrs.indexOf(id)?toggleParametrs.filter(item=>item!==id):[...toggleParametrs,id];
+    openParametr=()=>{
+        const {toggleParametrs,updateToggleParametrs,id}=this.props;
+        const newToggleParametrs=toggleParametrs.indexOf(id)==!-1?toggleParametrs.filter(item=>item!==id):[...toggleParametrs,id];
         updateToggleParametrs(newToggleParametrs)
+        console.log(newToggleParametrs)
 
     }
     updateStartPrice=(startPrice)=>{
@@ -42,7 +43,7 @@ class SearchParametr extends Component{
             description=`от ${startPrice} до ${endPrice}`
         return(
             <View  style={mainContainer}>
-                <TouchableOpacity onPress={()=>this.openParametr(id)} style={parametr}>
+                <TouchableOpacity onPress={this.openParametr} style={parametr}>
                     <Image source={icon} style={iconStyle}></Image>
                     <Text style={titleStyle}>{title}</Text>
                     {!open && 

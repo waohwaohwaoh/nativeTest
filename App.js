@@ -9,8 +9,7 @@ const initialState={
   rangePrice:{
     startPrice:null,
     endPrice:null
-  },
-  checkedLaws:['fz44']
+  }
 }
 const store=createStore(reducer, initialState)
 registerScreens(store,Provider);
