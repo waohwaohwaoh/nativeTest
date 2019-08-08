@@ -14,9 +14,20 @@ class SearchParametr extends Component{
         const {toggleParametrs,updateToggleParametrs,id}=this.props;
         const newToggleParametrs=toggleParametrs.indexOf(id)==!-1?toggleParametrs.filter(item=>item!==id):[...toggleParametrs,id];
         updateToggleParametrs(newToggleParametrs)
-        console.log(newToggleParametrs)
 
     }
+
+    updateEP=(endPrice)=>{
+        const {updateRangePrice}=this.props
+        updateRangePrice(this.props.rangePrice.startPrice,endPrice)
+    }
+
+    updateSP=(startPrice)=>{
+        const {updateRangePrice}=this.props
+        updateRangePrice(startPrice,this.props.rangePrice.endPrice)
+    }
+
+
     updateStartPrice=(startPrice)=>{
         const {updateStartPrice}=this.props;
         startPrice.trim()!==''?updateStartPrice(startPrice):updateStartPrice(null);
@@ -61,6 +72,7 @@ class SearchParametr extends Component{
                             style={expansionInput}
                             value={startPrice!==null?startPrice:''}
                             onChangeText={this.updateStartPrice}
+                            onEndEditing={this.updateSP}
                             keyboardType="numeric"
                         />
                         <View style={flexEnd}>
@@ -70,6 +82,7 @@ class SearchParametr extends Component{
                                 style={expansionInput}
                                 value={endPrice!==null?endPrice:''}
                                 onChangeText={this.updateEndPrice}
+                                onEndEditing={this.updateEP}
                                 keyboardType="numeric"
                             />
                         </View>

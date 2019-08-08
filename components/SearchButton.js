@@ -7,32 +7,17 @@ class SearchButton extends Component{
         super(props)
     }
     
-    updateLoading=()=>{
-        let load=this.props.isLoading;
-        this.props.updateLoading(!load)
-    }
-
-    updateData= async () => {
-        this.updateLoading(this.props.isLoading);
-        const respone=await fetch(url);
-        const data =await respone.json();
-        this.props.updateData(data);
-        this.updateLoading(this.props.isLoading)
-        console.log(typeof(data));
-    }
-    
-    
     render(){
         const {container,button,text}=styles;
-        const{isLoading,title}=this.props;
+        const{isFetching,title,getPurchase}=this.props;
         return(
         <View style={container}>
            <TouchableOpacity
-               onPress={this.updateData}
+               onPress={()=>getPurchase()}
                style={button}
             >
                 {
-                    isLoading?
+                    isFetching?
                     <ActivityIndicator
                         size="large"
                         color={WHITE}

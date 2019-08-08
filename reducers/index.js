@@ -1,4 +1,4 @@
-import {UPDATE_START_PRICE,UPDATE_END_PRICE,UPDATE_LOADING,UPDATE_DATA,UPDATE_CHECKBOX_VALUE,UPDATE_SEARCHBAR_VALUE,TOGGLE_PARAMETR} from '../actions/actionTypes'
+import {UPDATE_START_PRICE,UPDATE_END_PRICE,UPDATE_CHECKBOX_VALUE,UPDATE_SEARCHBAR_VALUE,TOGGLE_PARAMETR,RECEIVE_PURCHASE,REQUEST_PURCHASE, FAILED_PURCHASE} from '../actions/actionTypes'
 import {combineReducers} from 'redux'
 
 function searchBarValue(state='',action){
@@ -27,19 +27,32 @@ function rangePrice(state={},action){
     }
 }
 
-function loadingStatus(state=false, action){
-    switch(action.type){
-        case UPDATE_LOADING:
-            return action.loading
-        default:
-            return state    
-    }
-}
-
-function data(state={}, action){
+function data(state={
+    isFetching:false,
+    list:[],
+    total:'',
+    isError:null
+}, action){
      switch (action.type){
-         case UPDATE_DATA:
-             return action.data
+         case REQUEST_PURCHASE:
+             return {
+                ...state,
+                isFetching:true,
+                isError:null
+             }
+         case RECEIVE_PURCHASE:
+             return{
+                 ...action.data,
+                 isFetching:false,
+                 isError:null
+             }
+         case FAILED_PURCHASE:
+             return{
+                 ...state,
+                 isError:action.error,
+                 isFetching:false
+             }
+        
         default:
             return state
      }
@@ -49,7 +62,6 @@ function checkedLaws (state=[] , action){
     switch (action.type){
         case UPDATE_CHECKBOX_VALUE:
             return action.key
-                
         default:
             return state
     }
@@ -68,7 +80,6 @@ export const reducer=
 combineReducers({
     searchBarValue,
     rangePrice,
-    loadingStatus,
     data,
     checkedLaws,
     toggleParametrs

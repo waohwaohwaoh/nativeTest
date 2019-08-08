@@ -1,9 +1,10 @@
 import { Navigation } from 'react-native-navigation';
 
 import registerScreens from './navigation/register'
-import {createStore} from 'redux'
+import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
 import {reducer} from './reducers'
+import ReduxThunk from 'redux-thunk'
 
 const initialState={
   rangePrice:{
@@ -11,7 +12,7 @@ const initialState={
     endPrice:null
   }
 }
-const store=createStore(reducer, initialState)
+const store=createStore(reducer, initialState,applyMiddleware(ReduxThunk))
 registerScreens(store,Provider);
 
 
