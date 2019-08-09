@@ -6,9 +6,6 @@ import PropTypes from 'prop-types'
 class SearchParametr extends Component{
     constructor(props){
         super(props)
-        this.state={
-            open:false
-        }
     }
     openParametr=()=>{
         const {toggleParametrs,updateToggleParametrs,id}=this.props;
@@ -18,13 +15,23 @@ class SearchParametr extends Component{
     }
 
     updateEP=(endPrice)=>{
-        const {updateRangePrice}=this.props
-        updateRangePrice(this.props.rangePrice.startPrice,endPrice)
+        // console.log(this.props);
+        const {updateRangePrice,rangePrice}=this.props;
+        updateRangePrice({
+            rangePrice,
+            startPrice:rangePrice.startPrice,
+            endPrice
+        });
     }
 
     updateSP=(startPrice)=>{
-        const {updateRangePrice}=this.props
-        updateRangePrice(startPrice,this.props.rangePrice.endPrice)
+        const {updateRangePrice,rangePrice}=this.props;
+        const newObj={
+            rangePrice,
+            startPrice,
+            endPrice:rangePrice.endPrice
+        }
+        updateRangePrice(newObj);
     }
 
 
@@ -71,8 +78,7 @@ class SearchParametr extends Component{
                             placeholder='Любая'
                             style={expansionInput}
                             value={startPrice!==null?startPrice:''}
-                            onChangeText={this.updateStartPrice}
-                            onEndEditing={this.updateSP}
+                            onChangeText={this.updateSP}
                             keyboardType="numeric"
                         />
                         <View style={flexEnd}>
@@ -81,8 +87,7 @@ class SearchParametr extends Component{
                                 placeholder='Любая'
                                 style={expansionInput}
                                 value={endPrice!==null?endPrice:''}
-                                onChangeText={this.updateEndPrice}
-                                onEndEditing={this.updateEP}
+                                onChangeText={this.updateEP}
                                 keyboardType="numeric"
                             />
                         </View>

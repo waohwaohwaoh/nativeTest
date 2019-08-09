@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, View,StyleSheet, Button,Alert } from 'react-native';
 import {SearchBar,Container, SearchButton, LawButtonContainer,SearchParametr} from '../components';
 import {heightWindow, widthWindow, searchBarImage,LIGHTGREY,laws,parametrs} from '../constant';
-import {searchZakup} from '../actions/index'
 import {connect} from 'react-redux'
 import {updateStartPrice,updateEndPrice,updateCheckboxValue,updateSearchbarValue,toggleParametrs,getPurchase,updateRangePrice} from '../actions'
 
@@ -16,7 +15,7 @@ class Screen extends Component {
 
   render() {
     
-    const{rangePrice,checkedLaws,data,loadingStatus,toggleParametrs,searchBarValue,updateToggleParametrs,updateStartPrice,updateCheckboxValue,updateEndPrice,updateLoading,getPurchase,updateSearchbarValue}=this.props
+    const{rangePrice,checkedLaws,data,toggleParametrs,searchBarValue,updateToggleParametrs,updateStartPrice,updateRangePrice,updateCheckboxValue,updateEndPrice,getPurchase,updateSearchbarValue}=this.props
     const {container,containerParam}=styles;
     return (
       <View style={container}>

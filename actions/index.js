@@ -1,4 +1,4 @@
-import {UPDATE_CHECKBOX_VALUE,UPDATE_DATA,UPDATE_END_PRICE,UPDATE_LOADING,UPDATE_START_PRICE,UPDATE_SEARCHBAR_VALUE,TOGGLE_PARAMETR,RECEIVE_PURCHASE,REQUEST_PURCHASE,FAILED_PURCHASE} from './actionTypes';
+import {UPDATE_CHECKBOX_VALUE,UPDATE_END_PRICE,UPDATE_LOADING,UPDATE_START_PRICE,UPDATE_SEARCHBAR_VALUE,TOGGLE_PARAMETR,RECEIVE_PURCHASE,REQUEST_PURCHASE,FAILED_PURCHASE} from './actionTypes';
 import { url } from '../constant';
 
 export const updateSearchbarValue=(text)=>{
@@ -8,24 +8,22 @@ export const updateSearchbarValue=(text)=>{
     }
 }
 
-export const updateRangePrice=(startPrice=null, endPrice=null)=>{
-    function updateStartPrice(startPrice){
-        dispatch({type:UPDATE_START_PRICE,startPrice})
-        return startPrice
-    }
-    function updateEndPrice(endPrice){
-        dispatch({type:UPDATE_END_PRICE,endPrice})
-        return endPrice
-    }
-    updateData=(startPrice,endPrice)=>{dispatch(getPurchase(startPrice,endPrice))}
-
+export const updateRangePrice=(obj)=>(dispatch)=>{
     try{
-        updateStartPrice(startPrice);
-        updateEndPrice(endPrice);
-        this.updateData(startPrice,endPrice)
+
+        const{rangePrice,startPrice,endPrice}=(obj);
+        if(startPrice!==rangePrice.startPrice){
+            dispatch(updateStartPrice(startPrice));
+            return dispatch(getPurchase(startPrice,rangePrice.endPrice))
+        }
+        else if(endPrice!==rangePrice.endPrice){
+            dispatch(updateEndPrice(endPrice));
+            return dispatch(getPurchase(rangePrice.startPrice,endPrice))
+        }
+        else return;      
     }
     catch(error){
-        console.log(error.message)
+        console.log(error.message);
     }
 }
 
@@ -78,6 +76,7 @@ export const getPurchase=(startPrice=null,endPrice=null)=>async(dispatch)=>{
     try{
         requestPurchase();
         const url1=`http://zakupki.gov.ru/api/mobile/proxy/epz/order/extendedsearch/results.html?morphology=on&openMode=USE_DEFAULT_PARAMS&pageNumber=1&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&af=on&ca=on&pc=on&pa=on&priceFromGeneral=${startPrice}&priceToGeneral=${endPrice}&currencyIdGeneral=-1&regionDeleted=false&sortBy=UPDATE_DATE`
+        console.log(url1);
         const response=await fetch(url1);
         const data=await response.json();
         
@@ -93,12 +92,3 @@ export const getPurchase=(startPrice=null,endPrice=null)=>async(dispatch)=>{
 }
 
 
-export const fetchPurchase = (text)=>{
-    
-    return function(dispatch){
-        dispatch(requestPurchase())
-        return fetch(url)
-            .then(response=>response.json)
-            .then(data=>dispatch(receivePurchase(data)))
-    }
-}
