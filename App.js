@@ -7,12 +7,15 @@ import {reducer} from './reducers'
 import ReduxThunk from 'redux-thunk'
 
 const initialState={
-  rangePrice:{
+  filterValue:{
     startPrice:null,
-    endPrice:null
+    endPrice:null,
+    searchBarValue:'',
+    checkedLaws:[]
   }
 }
-const store=createStore(reducer, initialState,applyMiddleware(ReduxThunk))
+
+const store=createStore(reducer,initialState, applyMiddleware(ReduxThunk))
 registerScreens(store,Provider);
 
 

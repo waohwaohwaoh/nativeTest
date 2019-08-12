@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {View,TouchableOpacity,Image,Text,StyleSheet,Button,TextInput} from 'react-native';
+import {View,TouchableOpacity,Image,Text,StyleSheet,Button,TextInput,DatePickerAndroid} from 'react-native';
 import {arrowRight, widthWindow,LIGHTGREY} from '../constant'
-import PropTypes from 'prop-types'
+import DateTimePicker from 'react-native-modal-datetime-picker'
 
 class SearchParametr extends Component{
     constructor(props){
@@ -11,41 +11,27 @@ class SearchParametr extends Component{
         const {toggleParametrs,updateToggleParametrs,id}=this.props;
         const newToggleParametrs=toggleParametrs.indexOf(id)==!-1?toggleParametrs.filter(item=>item!==id):[...toggleParametrs,id];
         updateToggleParametrs(newToggleParametrs)
-
     }
 
-    updateEP=(endPrice)=>{
-        // console.log(this.props);
-        const {updateRangePrice,rangePrice}=this.props;
-        updateRangePrice({
-            rangePrice,
-            startPrice:rangePrice.startPrice,
-            endPrice
+    updateEndPrice=(endPrice)=>{
+        const {updateValueFilter}=this.props;
+        console.log(endPrice.trim()!=='');
+        updateValueFilter({
+            endPrice:endPrice.trim()!==''?endPrice:null
         });
     }
 
-    updateSP=(startPrice)=>{
-        const {updateRangePrice,rangePrice}=this.props;
-        const newObj={
-            rangePrice,
-            startPrice,
-            endPrice:rangePrice.endPrice
-        }
-        updateRangePrice(newObj);
-    }
-
-
     updateStartPrice=(startPrice)=>{
-        const {updateStartPrice}=this.props;
-        startPrice.trim()!==''?updateStartPrice(startPrice):updateStartPrice(null);
+        const {updateValueFilter}=this.props;
+        updateValueFilter({
+            startPrice:startPrice.trim()!==''?startPrice:null
+        });
     }
-    updateEndPrice=(endPrice)=>{
-        const {updateEndPrice}=this.props;
-        endPrice.trim()!==''?updateEndPrice(endPrice):updateEndPrice(null);
-    }
+
+
     render(){
         const {parametr,expansion, expansionInput,expansionText,iconStyle,titleStyle,descriptionStyle,flexEnd,mainContainer}=styles;
-        const {id,icon,title,rangePrice:{startPrice,endPrice},toggleParametrs}=this.props;
+        const {id,icon,title,startPrice,endPrice,toggleParametrs}=this.props;
         const open=toggleParametrs.indexOf(id)!==-1
         let description=''
         if(startPrice===null && endPrice===null){
@@ -78,7 +64,7 @@ class SearchParametr extends Component{
                             placeholder='Любая'
                             style={expansionInput}
                             value={startPrice!==null?startPrice:''}
-                            onChangeText={this.updateSP}
+                            onChangeText={this.updateStartPrice}
                             keyboardType="numeric"
                         />
                         <View style={flexEnd}>
@@ -87,7 +73,7 @@ class SearchParametr extends Component{
                                 placeholder='Любая'
                                 style={expansionInput}
                                 value={endPrice!==null?endPrice:''}
-                                onChangeText={this.updateEP}
+                                onChangeText={this.updateEndPrice}
                                 keyboardType="numeric"
                             />
                         </View>

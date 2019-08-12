@@ -9,6 +9,11 @@ const SearchBar =({
     value,
     onChangeText
 }) => {
+    const updateValue=(value)=>{
+      onChangeText({
+        searchBarValue:value
+      })
+    }
     const {sub, iconLeftStyle, inputStyle}=styles
     return(
         <View style={sub}>
@@ -18,7 +23,7 @@ const SearchBar =({
           />  
           <TextInput
             style={inputStyle}
-            onChangeText={onChangeText}
+            onChangeText={updateValue}
             value={value}
             placeholder={placeholder}
             placeholderTextColor={placeholderColor}

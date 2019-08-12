@@ -16,7 +16,7 @@ class LawButtonContainer extends Component{
     onPressCheckbox=(key)=>{
         const {checkedLaws,updateCheckboxValue}=this.props;
         const newCheckedLaws=checkedLaws.indexOf(key)!==-1?checkedLaws.filter(item=>item!==key):[...checkedLaws,key]
-        updateCheckboxValue( newCheckedLaws);
+        updateCheckboxValue( {checkedLaws:newCheckedLaws});
     }
 
     render(){

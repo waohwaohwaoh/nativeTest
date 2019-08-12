@@ -1,4 +1,4 @@
-import {UPDATE_START_PRICE,UPDATE_END_PRICE,UPDATE_CHECKBOX_VALUE,UPDATE_SEARCHBAR_VALUE,TOGGLE_PARAMETR,RECEIVE_PURCHASE,REQUEST_PURCHASE, FAILED_PURCHASE} from '../actions/actionTypes'
+import {UPDATE_START_PRICE,UPDATE_END_PRICE,UPDATE_CHECKBOX_VALUE,UPDATE_SEARCHBAR_VALUE,TOGGLE_PARAMETR,RECEIVE_PURCHASE,REQUEST_PURCHASE, FAILED_PURCHASE,UPDATE_FILTER_VALUE} from '../actions/actionTypes'
 import {combineReducers} from 'redux'
 
 function searchBarValue(state='',action){
@@ -10,22 +10,37 @@ function searchBarValue(state='',action){
     }
 }
 
-function rangePrice(state={},action){
+function filterValue(state={},action){
     switch(action.type){
-        case UPDATE_START_PRICE:
-            return {
+        case UPDATE_FILTER_VALUE:
+            return  {
                 ...state,
-                startPrice:action.startPrice
+                [action.key]:action.value
             }
-        case UPDATE_END_PRICE:
-            return {
-                ...state,
-                endPrice:action.endPrice
-            }
+            
         default:
             return state
     }
 }
+
+function startPrice(state=null,action){
+    switch(action.type){
+        case UPDATE_START_PRICE:
+            return action.startPrice
+        default:
+            return state
+    }
+}
+
+function endPrice(state=null,action){
+    switch(action.type){
+        case UPDATE_END_PRICE:
+            return action.endPrice
+        default:
+            return state
+    }
+}
+
 
 function data(state={
     isFetching:false,
@@ -78,8 +93,10 @@ function toggleParametrs (state=[],action){
 
 export const reducer=
 combineReducers({
+    filterValue,
     searchBarValue,
-    rangePrice,
+    startPrice,
+    endPrice,
     data,
     checkedLaws,
     toggleParametrs

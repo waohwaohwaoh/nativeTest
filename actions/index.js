@@ -1,4 +1,4 @@
-import {UPDATE_CHECKBOX_VALUE,UPDATE_END_PRICE,UPDATE_LOADING,UPDATE_START_PRICE,UPDATE_SEARCHBAR_VALUE,TOGGLE_PARAMETR,RECEIVE_PURCHASE,REQUEST_PURCHASE,FAILED_PURCHASE} from './actionTypes';
+import {UPDATE_CHECKBOX_VALUE,UPDATE_END_PRICE,UPDATE_LOADING,UPDATE_START_PRICE,UPDATE_SEARCHBAR_VALUE,TOGGLE_PARAMETR,RECEIVE_PURCHASE,REQUEST_PURCHASE,FAILED_PURCHASE,UPDATE_FILTER_VALUE} from './actionTypes';
 import { url } from '../constant';
 
 export const updateSearchbarValue=(text)=>{
@@ -8,22 +8,23 @@ export const updateSearchbarValue=(text)=>{
     }
 }
 
-export const updateRangePrice=(obj)=>(dispatch)=>{
+export const updateChangeFilter=(obj)=>(dispatch)=>{
     try{
-
-        const{rangePrice,startPrice,endPrice}=(obj);
-        if(startPrice!==rangePrice.startPrice){
-            dispatch(updateStartPrice(startPrice));
-            return dispatch(getPurchase(startPrice,rangePrice.endPrice))
-        }
-        else if(endPrice!==rangePrice.endPrice){
-            dispatch(updateEndPrice(endPrice));
-            return dispatch(getPurchase(rangePrice.startPrice,endPrice))
-        }
-        else return;      
+        const key=(Object.keys(obj).join(''));
+        const value=obj[key];
+        dispatch(updateValueFilter(value,key));
+        dispatch(getPurchase());      
     }
     catch(error){
         console.log(error.message);
+    }
+}
+
+export const updateValueFilter=(value=null,key=null)=>{
+    return{
+        type:UPDATE_FILTER_VALUE,
+        key,
+        value
     }
 }
 
@@ -62,7 +63,15 @@ export const toggleParametrs=(value)=>{
     }
 }
 
-export const getPurchase=(startPrice=null,endPrice=null)=>async(dispatch)=>{
+export const getPurchase=()=>async(dispatch,getStore)=>{
+    const store=getStore();
+    let {filterValue:{startPrice,endPrice,checkedLaws,searchBarValue}}=store;
+
+    const priceFromGeneral=startPrice!==null?`priceFromGeneral=${startPrice}&`:'';
+    const priceToGeneral=endPrice!==null?`priceToGeneral=${endPrice}&`:'';
+    const laws=checkedLaws.map(item=>item+'=on&').join('');
+    const searchString=searchBarValue!==''?`searchString=${searchBarValue}&`:'';
+
     function receivePurchase(data){
         dispatch({type:RECEIVE_PURCHASE,data})
         return data
@@ -75,7 +84,7 @@ export const getPurchase=(startPrice=null,endPrice=null)=>async(dispatch)=>{
     }
     try{
         requestPurchase();
-        const url1=`http://zakupki.gov.ru/api/mobile/proxy/epz/order/extendedsearch/results.html?morphology=on&openMode=USE_DEFAULT_PARAMS&pageNumber=1&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&af=on&ca=on&pc=on&pa=on&priceFromGeneral=${startPrice}&priceToGeneral=${endPrice}&currencyIdGeneral=-1&regionDeleted=false&sortBy=UPDATE_DATE`
+        const url1=`http://zakupki.gov.ru/api/mobile/proxy/epz/order/extendedsearch/results.html?${searchString}morphology=on&openMode=USE_DEFAULT_PARAMS&pageNumber=1&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&${laws}af=on&ca=on&pc=on&pa=on&${priceFromGeneral}${priceToGeneral}currencyIdGeneral=-1&regionDeleted=false&sortBy=UPDATE_DATE`
         console.log(url1);
         const response=await fetch(url1);
         const data=await response.json();

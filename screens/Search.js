@@ -3,7 +3,7 @@ import { Text, View,StyleSheet, Button,Alert } from 'react-native';
 import {SearchBar,Container, SearchButton, LawButtonContainer,SearchParametr} from '../components';
 import {heightWindow, widthWindow, searchBarImage,LIGHTGREY,laws,parametrs} from '../constant';
 import {connect} from 'react-redux'
-import {updateStartPrice,updateEndPrice,updateCheckboxValue,updateSearchbarValue,toggleParametrs,getPurchase,updateRangePrice} from '../actions'
+import {toggleParametrs,getPurchase,updateChangeFilter} from '../actions'
 
 
 class Screen extends Component {
@@ -15,7 +15,7 @@ class Screen extends Component {
 
   render() {
     
-    const{rangePrice,checkedLaws,data,toggleParametrs,searchBarValue,updateToggleParametrs,updateStartPrice,updateRangePrice,updateCheckboxValue,updateEndPrice,getPurchase,updateSearchbarValue}=this.props
+    const{updateValueFilter, filterValue:{startPrice,endPrice,checkedLaws,searchBarValue},data,toggleParametrs,updateToggleParametrs,getPurchase}=this.props
     const {container,containerParam}=styles;
     return (
       <View style={container}>
@@ -23,13 +23,13 @@ class Screen extends Component {
         <SearchBar
           iconLeft={searchBarImage}
           placeholder="Ключевое слово"
-          onChangeText={updateSearchbarValue}
+          onChangeText={updateValueFilter}
           placeholderColor='#6F7C98'
           value={searchBarValue}
         />
         <LawButtonContainer
           checkedLaws={checkedLaws}
-          updateCheckboxValue={updateCheckboxValue}
+          updateCheckboxValue={updateValueFilter}
           laws={laws}
         />
         <View style={containerParam}>
@@ -42,12 +42,11 @@ class Screen extends Component {
                   id={id}
                   icon={icon}
                   title={title}
-                  rangePrice={rangePrice}
-                  updateRangePrice={updateRangePrice}
-                  updateStartPrice={updateStartPrice}
-                  updateEndPrice={updateEndPrice}
+                  startPrice={startPrice}
+                  endPrice={endPrice}
                   toggleParametrs={toggleParametrs}
                   updateToggleParametrs={updateToggleParametrs}
+                  updateValueFilter={updateValueFilter}
                 />
               )
             })
@@ -79,9 +78,7 @@ const styles=StyleSheet.create({
 
 const mapStateToProps=state=>{
   return{
-    searchBarValue:state.searchBarValue,
-    rangePrice:state.rangePrice,
-    checkedLaws:state.checkedLaws,
+    filterValue:state.filterValue,
     data:state.data,
     toggleParametrs:state.toggleParametrs
   }
@@ -89,12 +86,8 @@ const mapStateToProps=state=>{
 
 const mapDispatchToProps=(dispatch)=>{
   return{
-    updateStartPrice:(startPrice)=>dispatch(updateStartPrice(startPrice)),
-    updateEndPrice:(endPrice)=>dispatch(updateEndPrice(endPrice)),
-    updateCheckboxValue:(value)=>dispatch(updateCheckboxValue(value)),
-    updateRangePrice:(startPrice,endPrice)=>dispatch(updateRangePrice(startPrice,endPrice)),
+    updateValueFilter:(value)=>dispatch(updateChangeFilter(value)),
     getPurchase:(startPrice,endPrice)=>dispatch(getPurchase(startPrice,endPrice)),
-    updateSearchbarValue:(value)=>dispatch(updateSearchbarValue(value)),
     updateToggleParametrs:(value)=>dispatch(toggleParametrs(value))
   }
 }
