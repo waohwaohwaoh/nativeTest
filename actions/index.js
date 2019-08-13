@@ -67,8 +67,8 @@ export const getPurchase=()=>async(dispatch,getStore)=>{
     const store=getStore();
     let {filterValue:{startPrice,endPrice,checkedLaws,searchBarValue}}=store;
 
-    const priceFromGeneral=startPrice!==null?`priceFromGeneral=${startPrice}&`:'';
-    const priceToGeneral=endPrice!==null?`priceToGeneral=${endPrice}&`:'';
+    const priceFromGeneral=startPrice!=='0'?`priceFromGeneral=${startPrice.replace(' ','')}&`:'';
+    const priceToGeneral=endPrice!=='0'?`priceToGeneral=${endPrice.replace(' ','')}&`:'';
     const laws=checkedLaws.map(item=>item+'=on&').join('');
     const searchString=searchBarValue!==''?`searchString=${searchBarValue}&`:'';
 
@@ -88,11 +88,15 @@ export const getPurchase=()=>async(dispatch,getStore)=>{
         console.log(url1);
         const response=await fetch(url1);
         const data=await response.json();
+        console.log(data.total);
+        if(data.total!==0){
+            return receivePurchase({
+                total:data.total,
+                list:data.list
+            })
+        }
+        else console.log('ne nashel')
         
-        return receivePurchase({
-            total:data.total,
-            list:data.list
-        })
     }
     catch(error){
         return failedPurchase(error)

@@ -8,8 +8,8 @@ import ReduxThunk from 'redux-thunk'
 
 const initialState={
   filterValue:{
-    startPrice:null,
-    endPrice:null,
+    startPrice:'0',
+    endPrice:'0',
     searchBarValue:'',
     checkedLaws:[]
   }

@@ -15,7 +15,7 @@ class Screen extends Component {
 
   render() {
     
-    const{updateValueFilter, filterValue:{startPrice,endPrice,checkedLaws,searchBarValue},data,toggleParametrs,updateToggleParametrs,getPurchase}=this.props
+    const{updateValueFilter, filterValue:{startPrice,endPrice,newStartPrice,newEndPrice,checkedLaws,searchBarValue},data,toggleParametrs,updateToggleParametrs,getPurchase}=this.props
     const {container,containerParam}=styles;
     return (
       <View style={container}>
@@ -44,6 +44,8 @@ class Screen extends Component {
                   title={title}
                   startPrice={startPrice}
                   endPrice={endPrice}
+                  newstartPrice={newStartPrice}
+                  newEndPrice={newEndPrice}
                   toggleParametrs={toggleParametrs}
                   updateToggleParametrs={updateToggleParametrs}
                   updateValueFilter={updateValueFilter}
@@ -87,7 +89,7 @@ const mapStateToProps=state=>{
 const mapDispatchToProps=(dispatch)=>{
   return{
     updateValueFilter:(value)=>dispatch(updateChangeFilter(value)),
-    getPurchase:(startPrice,endPrice)=>dispatch(getPurchase(startPrice,endPrice)),
+    getPurchase:()=>dispatch(getPurchase()),
     updateToggleParametrs:(value)=>dispatch(toggleParametrs(value))
   }
 }

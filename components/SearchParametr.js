@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
 import {View,TouchableOpacity,Image,Text,StyleSheet,Button,TextInput,DatePickerAndroid} from 'react-native';
-import {arrowRight, widthWindow,LIGHTGREY} from '../constant'
-import DateTimePicker from 'react-native-modal-datetime-picker'
+import {arrowRight, widthWindow,LIGHTGREY} from '../constant';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import { TextInputMask } from 'react-native-masked-text';
 
 class SearchParametr extends Component{
     constructor(props){
         super(props)
+        this.state={
+            newStartPrice:'0',
+            newEndPrice:'0'
+        }
     }
     openParametr=()=>{
         const {toggleParametrs,updateToggleParametrs,id}=this.props;
@@ -13,34 +18,66 @@ class SearchParametr extends Component{
         updateToggleParametrs(newToggleParametrs)
     }
 
-    updateEndPrice=(endPrice)=>{
-        const {updateValueFilter}=this.props;
-        console.log(endPrice.trim()!=='');
-        updateValueFilter({
-            endPrice:endPrice.trim()!==''?endPrice:null
-        });
+    updateStartPrice=(value)=>{
+        this.setState({
+            newStartPrice:value
+        })
     }
 
-    updateStartPrice=(startPrice)=>{
-        const {updateValueFilter}=this.props;
-        updateValueFilter({
-            startPrice:startPrice.trim()!==''?startPrice:null
-        });
+    updateEndPrice=(value)=>{
+        this.setState({
+            newEndPrice:value
+        })
+    } 
+
+    validationEndPrice=()=>{
+        const {updateValueFilter,startPrice,endPrice}=this.props;
+        let {newEndPrice}=this.state;
+        newEndPrice=newEndPrice.replace(' ','')!==''?newEndPrice:'0';
+        const value=parseInt(newEndPrice.replace(' ',''))>parseInt(startPrice.replace(' ','')) || startPrice==='0'?newEndPrice:null;
+        console.log(value)
+        if(value!==null){
+            updateValueFilter({endPrice:value})
+          }
+        else{   
+            alert('Конечная цена не может быть выше начальной');
+            this.setState({
+               newEndPrice:endPrice
+            })
+        }
+    }
+
+    validationStartPrice=()=>{
+        const {updateValueFilter,endPrice,startPrice}=this.props;
+        let {newStartPrice}=this.state;
+        newStartPrice=newStartPrice.replace(' ','')!==''?newStartPrice:'0';
+        let value=parseInt(newStartPrice.replace(' ',''))<parseInt(endPrice.replace(' ','')) || endPrice==='0'?newStartPrice:null;
+        console.log(value);
+        if(value!==null){
+            updateValueFilter({startPrice:value})
+        }
+        else{
+            alert('Начальная цена не может быть ниже конченой');
+                this.setState({
+                newStartPrice:startPrice
+            })
+        }
     }
 
 
     render(){
         const {parametr,expansion, expansionInput,expansionText,iconStyle,titleStyle,descriptionStyle,flexEnd,mainContainer}=styles;
         const {id,icon,title,startPrice,endPrice,toggleParametrs}=this.props;
+        const {newStartPrice,newEndPrice}=this.state
         const open=toggleParametrs.indexOf(id)!==-1
         let description=''
-        if(startPrice===null && endPrice===null){
+        if(startPrice==='0' && endPrice==='0'){
             description='Любая';
         }
-        else if(startPrice===null && endPrice!==null){
+        else if(startPrice==='0' && endPrice!=='0'){
             description=`до ${endPrice}`
         }
-        else if(startPrice!==null && endPrice===null){
+        else if(startPrice!=='0' && endPrice==='0'){
             description=`от ${startPrice}`
         }
         else
@@ -54,26 +91,45 @@ class SearchParametr extends Component{
                         <View style={flexEnd}>
                             <Text style={descriptionStyle}>{description}</Text>
                             <Image source={arrowRight}></Image>
+                            
                         </View>
                     }
                 </TouchableOpacity>
                 {open && 
                     <View style={expansion}>
                         <Text style={expansionText}>{'от'}</Text>
-                        <TextInput
-                            placeholder='Любая'
-                            style={expansionInput}
-                            value={startPrice!==null?startPrice:''}
-                            onChangeText={this.updateStartPrice}
-                            keyboardType="numeric"
-                        />
-                        <View style={flexEnd}>
-                            <Text style={expansionText}>{'до'}</Text>
-                            <TextInput
+                        <TextInputMask
+                                type={'money'}
+                                options={{
+                                    precision: 0,
+                                    delimiter: ' ',
+                                    unit: '',
+                                    suffixUnit: ''
+                                  }}
+                                // dont forget to set the "value" and "onChangeText" props
+                                value={newStartPrice!=='0'?newStartPrice:''}
+                                onChangeText={this.updateStartPrice}
+                                onEndEditing={this.validationStartPrice}
                                 placeholder='Любая'
                                 style={expansionInput}
-                                value={endPrice!==null?endPrice:''}
+                                keyboardType="numeric"
+                            />
+                        <View style={flexEnd}>
+                            <Text style={expansionText}>{'до'}</Text>
+                            
+                            <TextInputMask
+                                type={'money'}
+                                options={{
+                                    precision: 0,
+                                    delimiter: ' ',
+                                    unit: '',
+                                    suffixUnit: ''
+                                }}
+                                placeholder='Любая'
+                                style={expansionInput}
+                                value={newEndPrice!=='0'?newEndPrice:''}
                                 onChangeText={this.updateEndPrice}
+                                onEndEditing={this.validationEndPrice}
                                 keyboardType="numeric"
                             />
                         </View>
