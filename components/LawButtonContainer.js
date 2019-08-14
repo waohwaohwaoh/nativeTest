@@ -51,7 +51,8 @@ const styles=StyleSheet.create({
       justifyContent:'flex-start',
       marginLeft: 15,
       width: widthWindow - 30,
-      marginTop: 23
+      marginTop: 23,
+      marginBottom:35
     },
     button:{
       paddingLeft: 15,

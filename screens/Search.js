@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View,StyleSheet, Button,Alert } from 'react-native';
-import {SearchBar,Container, SearchButton, LawButtonContainer,SearchParametr} from '../components';
-import {heightWindow, widthWindow, searchBarImage,LIGHTGREY,laws,parametrs} from '../constant';
+import {View,StyleSheet, Button,Alert } from 'react-native';
+import {SearchBar, SearchButton, LawButtonContainer,SearchParametr,SearchParametrDate} from '../components';
+import { widthWindow, searchBarImage,LIGHTGREY,laws,parametrPrice,parametrDate} from '../constant';
 import {connect} from 'react-redux'
-import {toggleParametrs,getPurchase,updateChangeFilter} from '../actions'
+import {getPurchase,updateChangeFilter} from '../actions'
 
 
 class Screen extends Component {
@@ -15,8 +15,9 @@ class Screen extends Component {
 
   render() {
     
-    const{updateValueFilter, filterValue:{startPrice,endPrice,newStartPrice,newEndPrice,checkedLaws,searchBarValue},data,toggleParametrs,updateToggleParametrs,getPurchase}=this.props
+    const{updateValueFilter, filterValue:{startPrice,endPrice,checkedLaws,searchBarValue,startDate,endDate},data,getPurchase}=this.props
     const {container,containerParam}=styles;
+    
     return (
       <View style={container}>
         { data.isError!==null && Alert.alert(`Ошибка: ${data.isError.name}`)}
@@ -33,26 +34,24 @@ class Screen extends Component {
           laws={laws}
         />
         <View style={containerParam}>
-          {
-            parametrs.map(item=>{
-              const {id, icon, title}=item;
-              return(
-                <SearchParametr
-                  key={id}
-                  id={id}
-                  icon={icon}
-                  title={title}
-                  startPrice={startPrice}
-                  endPrice={endPrice}
-                  newstartPrice={newStartPrice}
-                  newEndPrice={newEndPrice}
-                  toggleParametrs={toggleParametrs}
-                  updateToggleParametrs={updateToggleParametrs}
-                  updateValueFilter={updateValueFilter}
-                />
-              )
-            })
-          }
+          <SearchParametr
+              key={parametrPrice.id}
+              icon={parametrPrice.icon}
+              title={parametrPrice.title}
+              startPrice={startPrice}
+              endPrice={endPrice}
+              updateValueFilter={updateValueFilter}
+          />
+        </View>
+        <View style={containerParam}>
+          <SearchParametrDate
+            key={parametrDate.id}
+            icon={parametrDate.icon}
+            title={parametrDate.title}
+            startDate={startDate}
+            endDate={endDate}
+            updateValueFilter={updateValueFilter}
+          />
         </View>
         <SearchButton
             title={JSON.stringify(data.list) == "[]"?'Поиск':`Показать закупки ${data.total}`}
@@ -67,7 +66,6 @@ class Screen extends Component {
 
 const styles=StyleSheet.create({
   containerParam:{
-    marginTop: 35,
     borderTopWidth: 1,
     borderColor:LIGHTGREY,
     width: widthWindow - 40,
@@ -81,16 +79,14 @@ const styles=StyleSheet.create({
 const mapStateToProps=state=>{
   return{
     filterValue:state.filterValue,
-    data:state.data,
-    toggleParametrs:state.toggleParametrs
+    data:state.data
   }
 }
 
 const mapDispatchToProps=(dispatch)=>{
   return{
     updateValueFilter:(value)=>dispatch(updateChangeFilter(value)),
-    getPurchase:()=>dispatch(getPurchase()),
-    updateToggleParametrs:(value)=>dispatch(toggleParametrs(value))
+    getPurchase:()=>dispatch(getPurchase())
   }
 }
 

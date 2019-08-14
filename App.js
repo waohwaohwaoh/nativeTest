@@ -11,7 +11,9 @@ const initialState={
     startPrice:'0',
     endPrice:'0',
     searchBarValue:'',
-    checkedLaws:[]
+    checkedLaws:[],
+    startDate:null,
+    endDate:null
   }
 }
 

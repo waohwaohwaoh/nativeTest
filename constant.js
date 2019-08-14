@@ -20,6 +20,7 @@ export const searchBarImage=require('./images/icon_serch_small.png');
 export const acceptImage=require('./images/accept.png');
 export const acceptImageActive=require('./images/accept_check.png');
 export const arrowRight=require('./images/arrow_right.png');
+export const close=require('./images/close.png');
 
 //variable
 
@@ -39,13 +40,19 @@ export const laws=[
 
 ]
 
-export const parametrs=[
+export const parametrPrice=
     {
         id:1,
         icon:require('./images/price_parametr.png'),
         title:'Цена'
     }
-]
+
+export const parametrDate=
+    {
+        id:2,
+        icon:require('./images/Union.png'),
+        title:'Дата'
+    }
 
 //url
  export const url='http://zakupki.gov.ru/api/mobile/proxy/epz/order/extendedsearch/results.html?morphology=on&pageNumber=1&sortBy=PUBLISH_DATE&sortDirection=false&fz44=on&fz223=on&currencyId=-1';
