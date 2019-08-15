@@ -68,12 +68,14 @@ export const getPurchase=()=>async(dispatch,getStore)=>{
         const url1=`http://zakupki.gov.ru/api/mobile/proxy/epz/order/extendedsearch/results.html?${searchString}morphology=on&openMode=USE_DEFAULT_PARAMS&pageNumber=1&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&${laws}af=on&ca=on&pc=on&pa=on&${priceFromGeneral}${priceToGeneral}currencyIdGeneral=-1&regionDeleted=false&${publishDateFrom}${publishDateTo}sortBy=UPDATE_DATE`
         const response=await fetch(url1);
         const data=await response.json();
+        console.log(data);
         if(data.total!==0){
             return receivePurchase({
                 total:data.total,
                 list:data.list
             })
         }
+        else throw new Error();
         
     }
     catch(error){

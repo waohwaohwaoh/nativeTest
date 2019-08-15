@@ -11,6 +11,12 @@ class Screen extends Component {
   click=()=>{
     console.log(this.props)
   }
+  showPurchase=()=>{
+    this.props.navigator.push({
+      screen: 'Screen5',
+      title: 'Поиск',
+    });
+  }
   
 
   render() {
@@ -56,7 +62,7 @@ class Screen extends Component {
         <SearchButton
             title={JSON.stringify(data.list) == "[]"?'Поиск':`Показать закупки ${data.total}`}
             isFetching={data.isFetching}
-            getPurchase={getPurchase}
+            onPress={this.showPurchase}
         />
         <Button title='click' onPress={this.click}></Button>
       </View>

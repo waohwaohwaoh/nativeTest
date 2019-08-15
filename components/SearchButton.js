@@ -9,12 +9,12 @@ class SearchButton extends Component{
     
     render(){
         const {container,button,text}=styles;
-        const{isFetching,title,getPurchase}=this.props;
+        const{isFetching,title,onPress}=this.props;
         return(
         <View style={container}>
            <TouchableOpacity
-               onPress={()=>getPurchase()}
                style={button}
+               onPress={onPress}
             >
                 {
                     isFetching?
