@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { Text, View,StyleSheet,Image,TouchableOpacity } from 'react-native'
-import {widthWindow,star,starActive, LIGHTGREY, LIGHTBLUE} from '../constant'
+import {widthWindow,star,starActive, LIGHTGREY, LIGHTBLUE, WHITE,stage} from '../constant'
 
 class Purchase extends Component {
     render() {
-        const {mainCointainer,stageText,descriptionText,header,flexEnd,price,preheader}=style;
+        const {mainCointainer,purhaseType,descriptionText,header,flexEnd,price,preheader,lot,body,stageText,bottomText}=style;
         const flag=false;
         return (
             <View style={mainCointainer}>
                 <View style={header}>
-                    <Text style={stageText}>Электронный аукцион</Text>
+                    <Text style={purhaseType}>Электронный аукцион</Text>
                     <View style={flexEnd}>
                         <Text style={[descriptionText,{marginRight:19}]}>18.03.2018</Text>
                         <TouchableOpacity>
@@ -28,9 +28,18 @@ class Purchase extends Component {
                 <Text style={price}>
                       {'487 000 258 358,00'}
                 </Text>
-                <View>
-
+                <View style={body}>
+                    <Image source={stage}/>
+                    <Text style={stageText}>{'Подача Заявок'}</Text>
+                    <View style={flexEnd}>
+                        <Text style={lot}>
+                            Лот 2222
+                        </Text>
+                    </View>
                 </View>
+                <Text style={bottomText} numberOfLines={3}>
+                    {'Поставка изделий медицинского назначения для всех отделений (перчатки нестерильные)(перчатки нестерильные)(перчатки нестерильные)(перчатки нестерильные)'}
+                </Text>
             </View>
         )
     }
@@ -41,20 +50,23 @@ const style=StyleSheet.create({
         width:widthWindow-40,
         flexDirection:'column',
         marginLeft:20,
+        marginVertical:20,
         paddingTop:19,
         paddingBottom:10,
         paddingHorizontal:20,
         borderRadius:8,
+        backgroundColor:WHITE,
+        height:210,
         shadowColor:LIGHTBLUE,
         shadowOffset: {
-            width:5,
-            height:5
+            width:10,
+            height:10
         },
-        shadowOpacity: 0.9,
-        shadowRadius: 4,
-        elevation:11
+        shadowOpacity: 0.74,
+        shadowRadius: 8,
+        elevation:17
     },
-    stageText:{
+    purhaseTypeText:{
         fontSize:15,
         color:'#27344C'
     },
@@ -72,10 +84,40 @@ const style=StyleSheet.create({
     },
     price:{
         fontSize:22,
-        color:LIGHTBLUE
+        color:LIGHTBLUE,
+        paddingVertical:5
     },
     preheader:{
         flexDirection:'row'
+    },
+    lot:{
+        height:24,
+        paddingTop:5,
+        paddingHorizontal:10,
+        color:'#7F9AFB',
+        borderColor:'#7F9AFB',
+        borderWidth:2,
+        fontSize:11,
+        borderRadius:20,
+        backgroundColor:WHITE
+    },
+    body:{
+        flexDirection:'row',
+        paddingVertical:5,
+        alignItems:"center"
+    },
+    stageText:{
+        paddingLeft:7,
+        color:'#501AEA',
+        fontSize:11
+    },
+    bottomText:{
+        fontSize:13,
+        color:'#27344C',
+        lineHeight:20,
+        overflow:'hidden',
+        maxHeight:65,
+        marginTop:5
     } 
 
 })

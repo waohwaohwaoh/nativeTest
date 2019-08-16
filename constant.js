@@ -22,7 +22,8 @@ export const acceptImageActive=require('./images/accept_check.png');
 export const arrowRight=require('./images/arrow_right.png');
 export const close=require('./images/close.png');
 export const star=require('./images/star.png');
-export const starActive=require('./images/star_active.png')
+export const starActive=require('./images/star_active.png');
+export const stage=require('./images/stage.png');
 
 //variable
 
