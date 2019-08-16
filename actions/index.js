@@ -1,5 +1,4 @@
-import {UPDATE_CHECKBOX_VALUE,UPDATE_END_PRICE,UPDATE_LOADING,UPDATE_START_PRICE,UPDATE_SEARCHBAR_VALUE,TOGGLE_PARAMETR,RECEIVE_PURCHASE,REQUEST_PURCHASE,FAILED_PURCHASE,UPDATE_FILTER_VALUE} from './actionTypes';
-import { url } from '../constant';
+import {UPDATE_CHECKBOX_VALUE,UPDATE_END_PRICE,UPDATE_START_PRICE,RECEIVE_PURCHASE,REQUEST_PURCHASE,FAILED_PURCHASE,UPDATE_FILTER_VALUE,UPDATE_PAGE_NUMBER} from './actionTypes';
 
 
 export const updateChangeFilter=(obj)=>(dispatch)=>{
@@ -13,6 +12,8 @@ export const updateChangeFilter=(obj)=>(dispatch)=>{
         console.log(error.message);
     }
 }
+
+
 
 export const updateValueFilter=(value=null,key=null)=>{
     return{

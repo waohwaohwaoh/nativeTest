@@ -4,14 +4,15 @@ import {widthWindow,star,starActive, LIGHTGREY, LIGHTBLUE, WHITE,stage} from '..
 
 class Purchase extends Component {
     render() {
-        const {mainCointainer,purhaseType,descriptionText,header,flexEnd,price,preheader,lot,body,stageText,bottomText}=style;
+        const {mainCointainer,purhaseType,descriptionText,header,flexEnd,priceStyle,preheader,lot,body,stageText,bottomText}=style;
+        const {date,title,text,price,number}=this.props
         const flag=false;
         return (
             <View style={mainCointainer}>
                 <View style={header}>
-                    <Text style={purhaseType}>Электронный аукцион</Text>
+                    <Text style={purhaseType} numberOfLines={1}>{title}</Text>
                     <View style={flexEnd}>
-                        <Text style={[descriptionText,{marginRight:19}]}>18.03.2018</Text>
+                        <Text style={[descriptionText,{marginRight:19}]}>{date}</Text>
                         <TouchableOpacity>
                             <Image source={flag?star:starActive}></Image>
                         </TouchableOpacity>
@@ -22,11 +23,11 @@ class Purchase extends Component {
                     {'44-ФЗ'}
                     </Text>
                     <Text style={[descriptionText,{marginLeft:10}]}>
-                    {'№0138000066170000701'}
+                    {'№'+number}
                     </Text>
                 </View>
-                <Text style={price}>
-                      {'487 000 258 358,00'}
+                <Text style={priceStyle}>
+                      {price}
                 </Text>
                 <View style={body}>
                     <Image source={stage}/>
@@ -38,7 +39,7 @@ class Purchase extends Component {
                     </View>
                 </View>
                 <Text style={bottomText} numberOfLines={3}>
-                    {'Поставка изделий медицинского назначения для всех отделений (перчатки нестерильные)(перчатки нестерильные)(перчатки нестерильные)(перчатки нестерильные)'}
+                    {text}
                 </Text>
             </View>
         )
@@ -66,9 +67,10 @@ const style=StyleSheet.create({
         shadowRadius: 8,
         elevation:17
     },
-    purhaseTypeText:{
+    purhaseType:{
         fontSize:15,
-        color:'#27344C'
+        color:'#27344C',
+        maxWidth:widthWindow/2.3
     },
     descriptionText:{
         fontSize:15,
@@ -82,7 +84,7 @@ const style=StyleSheet.create({
         flexDirection:'row',
         alignItems:'center'
     },
-    price:{
+    priceStyle:{
         fontSize:22,
         color:LIGHTBLUE,
         paddingVertical:5
@@ -109,7 +111,9 @@ const style=StyleSheet.create({
     stageText:{
         paddingLeft:7,
         color:'#501AEA',
-        fontSize:11
+        fontSize:11,
+        overflow:'hidden',
+        maxWidth:widthWindow/3
     },
     bottomText:{
         fontSize:13,

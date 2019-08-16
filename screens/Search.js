@@ -18,6 +18,9 @@ class Screen extends Component {
     });
   }
   
+  componentDidMount(){
+    this.props.getPurchase()
+  }
 
   render() {
     

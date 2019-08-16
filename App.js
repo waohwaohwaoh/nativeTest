@@ -13,7 +13,8 @@ const initialState={
     searchBarValue:'',
     checkedLaws:[],
     startDate:null,
-    endDate:null
+    endDate:null,
+    pageNumber:1
   }
 }
 
