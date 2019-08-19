@@ -1,4 +1,4 @@
-import {UPDATE_PAGE_NUMBER,RECEIVE_PURCHASE,REQUEST_PURCHASE, FAILED_PURCHASE,UPDATE_FILTER_VALUE} from '../actions/actionTypes'
+import {RECEIVE_PURCHASE,REQUEST_PURCHASE, FAILED_PURCHASE,UPDATE_FILTER_VALUE,UPDATE_PURCHASE_LIST} from '../actions/actionTypes'
 import {combineReducers} from 'redux'
 
 
@@ -42,7 +42,16 @@ function data(state={
                  isError:action.error,
                  isFetching:false
              }
-        
+         case UPDATE_PURCHASE_LIST:
+             return{
+                ...state,
+                list:[
+                    ...state.list,
+                    ...action.list
+                ],
+                isFetching:false,
+                isError:null
+             }
         default:
             return state
      }

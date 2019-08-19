@@ -24,12 +24,12 @@ class Screen extends Component {
 
   render() {
     
-    const{updateValueFilter, filterValue:{startPrice,endPrice,checkedLaws,searchBarValue,startDate,endDate},data,getPurchase}=this.props
+    const{updateValueFilter, filterValue:{startPrice,endPrice,checkedLaws,searchBarValue,startDate,endDate},data}=this.props
     const {container,containerParam}=styles;
     
     return (
       <View style={container}>
-        { data.isError!==null && Alert.alert(`Ошибка: ${data.isError.name}`)}
+        { data.isError!==null && Alert.alert(`Ошибка: ${data.isError}`)}
         <SearchBar
           iconLeft={searchBarImage}
           placeholder="Ключевое слово"

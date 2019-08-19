@@ -3,19 +3,20 @@ import { Text, View,StyleSheet,ScrollView,RefreshControl,FlatList } from 'react-
 import {connect} from 'react-redux'
 import {Purchase} from '../components'
 import { LIGHTBLUE } from '../constant';
+import {updateChangeFilter} from '../actions'
 
 class PurchaseList extends Component {
-    state = {
-        refreshing: false,
-    };
+    
     _onRefresh = () => {
-        this.setState({refreshing: true});
-        setTimeout(()=>{this.setState({refreshing: false});},3000)
-        console.log(this.state.refreshing)
+        const {updateValueFilter,pageNumber}=this.props;
+        console.log(pageNumber+1)
+        updateValueFilter({
+            pageNumber:pageNumber+1
+        },true)
         
       }
     render() {
-        const {data:{list,total}}=this.props
+        const {data:{list,total,isFetching}}=this.props
         const {titleContainer,titleText,mainContainer}=style;
         return (
             <View >
@@ -26,7 +27,6 @@ class PurchaseList extends Component {
                     data={list}
                     renderItem={({item})=>{
                         let {createDate,price,titleNumber,number,titleName,method}=item;
-                            console.log(method);
                             const date=new Date(createDate).toLocaleDateString().split(',')[0];
                             return(
                                 <Purchase
@@ -45,7 +45,7 @@ class PurchaseList extends Component {
                     style={mainContainer}
                     refreshControl={
                         <RefreshControl
-                            refreshing={this.state.refreshing}
+                            refreshing={isFetching}
                             onRefresh={this._onRefresh}
                         />
                     }
@@ -53,33 +53,6 @@ class PurchaseList extends Component {
                     onEndReached={this._onRefresh}
                 >
                 </FlatList>
-                {/* <ScrollView style={mainContainer}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={this._onRefresh}
-                        />
-                    }
-                >
-                    {
-                        list.map(item=>{
-                            let {createDate,price,titleNumber,number,titleName,method}=item;
-                            console.log(method);
-                            const date=new Date(createDate).toLocaleDateString().split(',')[0];
-                            return(
-                                <Purchase
-                                    date={date}
-                                    key={number}
-                                    number={titleNumber}
-                                    text={titleName}
-                                    title={method.name}
-                                    price={price}
-                                />
-                            )
-
-                        })
-                    }
-                </ScrollView> */}
             </View>
         )
     }
@@ -87,9 +60,15 @@ class PurchaseList extends Component {
 
 const mapStateToProps=state=>{
     return{
-      data:state.data
+      data:state.data,
+      pageNumber:state.filterValue.pageNumber
     }
   }
+const mapStateToDispatch=(dispatch)=>{
+    return{
+        updateValueFilter:(value,flag)=>dispatch(updateChangeFilter(value,flag)),
+    }
+}
 
 const style=StyleSheet.create({
     mainContainer:{
@@ -106,4 +85,4 @@ const style=StyleSheet.create({
     }
 })
 
-export default connect (mapStateToProps,{}) (PurchaseList)
+export default connect (mapStateToProps,mapStateToDispatch) (PurchaseList)
