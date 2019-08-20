@@ -3,7 +3,7 @@ import { Text, View,StyleSheet,ScrollView,RefreshControl,FlatList } from 'react-
 import {connect} from 'react-redux'
 import {Purchase} from '../components'
 import { LIGHTBLUE } from '../constant';
-import {updateChangeFilter} from '../actions'
+import {updateChangeFilter,toggleFavourites} from '../actions'
 
 class PurchaseList extends Component {
     
@@ -12,11 +12,12 @@ class PurchaseList extends Component {
         console.log(pageNumber+1)
         updateValueFilter({
             pageNumber:pageNumber+1
-        },true)
+        },true);
+        console.log(this.props);
         
       }
     render() {
-        const {data:{list,total,isFetching}}=this.props
+        const {data:{list,total,isFetching},favourites,toggleFavourites}=this.props
         const {titleContainer,titleText,mainContainer}=style;
         return (
             <View >
@@ -36,6 +37,8 @@ class PurchaseList extends Component {
                                     text={titleName}
                                     title={method.name}
                                     price={price}
+                                    isFavourites={favourites.filter(item=>item.number===number).length!==0}
+                                    toggleFavourites={toggleFavourites}
                                 />
                             )
                     }
@@ -61,12 +64,14 @@ class PurchaseList extends Component {
 const mapStateToProps=state=>{
     return{
       data:state.data,
-      pageNumber:state.filterValue.pageNumber
+      pageNumber:state.filterValue.pageNumber,
+      favourites:state.favourites
     }
   }
 const mapStateToDispatch=(dispatch)=>{
     return{
         updateValueFilter:(value,flag)=>dispatch(updateChangeFilter(value,flag)),
+        toggleFavourites:(id,flag)=>dispatch(toggleFavourites(id,flag))
     }
 }
 

@@ -1,4 +1,4 @@
-import {UPDATE_CHECKBOX_VALUE,UPDATE_END_PRICE,UPDATE_START_PRICE,RECEIVE_PURCHASE,REQUEST_PURCHASE,FAILED_PURCHASE,UPDATE_FILTER_VALUE,UPDATE_PURCHASE_LIST} from './actionTypes';
+import {UPDATE_CHECKBOX_VALUE,UPDATE_END_PRICE,UPDATE_START_PRICE,RECEIVE_PURCHASE,REQUEST_PURCHASE,FAILED_PURCHASE,UPDATE_FILTER_VALUE,UPDATE_PURCHASE_LIST,ADD_FAVOURITES,DELETE_FAVOURITES} from './actionTypes';
 
 
 export const updateChangeFilter=(obj,flag=false)=>(dispatch)=>{
@@ -13,6 +13,22 @@ export const updateChangeFilter=(obj,flag=false)=>(dispatch)=>{
     catch(error){
         console.log(error.message);
     }
+}
+
+export const toggleFavourites=(id,flag)=>(dispatch,getStore)=>{
+    const {data:{list},favourites}=getStore();
+    console.log(list.filter(item=>item.number===id));
+
+    function addFavourites(object){
+        dispatch({type:ADD_FAVOURITES,object})
+    }
+
+    function deleteFavourites(value){
+        dispatch({type:DELETE_FAVOURITES,value})
+    }
+    
+    flag?deleteFavourites(favourites.filter(item=>item.number!==id)):addFavourites(list.filter(item=>item.number===id))
+
 }
 
 
@@ -75,6 +91,7 @@ export const getPurchase=(flag=false)=>async(dispatch,getStore)=>{
         const url1=`http://zakupki.gov.ru/api/mobile/proxy/epz/order/extendedsearch/results.html?${searchString}morphology=on&openMode=USE_DEFAULT_PARAMS&pageNumber=${pageNumber}&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&${laws}af=on&ca=on&pc=on&pa=on&${priceFromGeneral}${priceToGeneral}currencyIdGeneral=-1&regionDeleted=false&${publishDateFrom}${publishDateTo}sortBy=UPDATE_DATE`
         const response=await fetch(url1);
         const data=await response.json();
+        console.log(data);
         if(data.total!==0 && !flag){
             return receivePurchase({
                 total:data.total,

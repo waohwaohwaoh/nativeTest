@@ -1,4 +1,4 @@
-import {RECEIVE_PURCHASE,REQUEST_PURCHASE, FAILED_PURCHASE,UPDATE_FILTER_VALUE,UPDATE_PURCHASE_LIST} from '../actions/actionTypes'
+import {RECEIVE_PURCHASE,REQUEST_PURCHASE, FAILED_PURCHASE,UPDATE_FILTER_VALUE,UPDATE_PURCHASE_LIST,ADD_FAVOURITES,DELETE_FAVOURITES} from '../actions/actionTypes'
 import {combineReducers} from 'redux'
 
 
@@ -15,6 +15,19 @@ function filterValue(state={},action){
     }
 }
 
+function favourites(state=[],action){
+    switch(action.type){
+        case ADD_FAVOURITES:
+            return[
+                ...state,
+                ...action.object
+            ]
+        case DELETE_FAVOURITES:
+            return action.value
+        default:
+            return state
+    }
+}
 
 
 function data(state={
@@ -61,7 +74,8 @@ function data(state={
 export const reducer=
 combineReducers({
     filterValue,
-    data
+    data,
+    favourites
 })
 
   

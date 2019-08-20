@@ -14,6 +14,7 @@ export const BLACK='#000';
 export const LIGHTBLUE='#2d85ed';
 export const BLUE='#315DFA';
 export const LIGHTGREY='#A6B1C6';
+export const DARKBLUE='#27344C';
 
 //icons
 export const searchBarImage=require('./images/icon_serch_small.png');

@@ -1,8 +1,8 @@
 import { Navigation } from 'react-native-navigation';
 import Screen1 from '../screens/Search';
-import Screen2 from '../screens/Analytics';
-import Screen3 from '../screens/PersonalArea';
-import Screen4 from '../screens/Favorites';
+import Screen2 from '../screens/Favorites';
+import Screen3 from '../screens/Analytics';
+import Screen4 from '../screens/PersonalArea';
 import Screen5 from '../screens/PurchaseList';
 
 export default (store, Provider) =>  {

@@ -3,18 +3,19 @@ import { Text, View,StyleSheet,Image,TouchableOpacity } from 'react-native'
 import {widthWindow,star,starActive, LIGHTGREY, LIGHTBLUE, WHITE,stage} from '../constant'
 
 class Purchase extends Component {
+    
+
     render() {
         const {mainCointainer,purhaseType,descriptionText,header,flexEnd,priceStyle,preheader,lot,body,stageText,bottomText}=style;
-        const {date,title,text,price,number}=this.props
-        const flag=false;
+        const {date,title,text,price,number,isFavourites,toggleFavourites}=this.props
         return (
             <View style={mainCointainer}>
                 <View style={header}>
                     <Text style={purhaseType} numberOfLines={1}>{title}</Text>
                     <View style={flexEnd}>
                         <Text style={[descriptionText,{marginRight:19}]}>{date}</Text>
-                        <TouchableOpacity>
-                            <Image source={flag?star:starActive}></Image>
+                        <TouchableOpacity onPress={()=>{toggleFavourites(number,isFavourites)}}>
+                            <Image source={isFavourites?starActive:star}></Image>
                         </TouchableOpacity>
                     </View>                    
                 </View>
