@@ -1,4 +1,4 @@
-import {RECEIVE_PURCHASE,REQUEST_PURCHASE, FAILED_PURCHASE,UPDATE_FILTER_VALUE,UPDATE_PURCHASE_LIST,ADD_FAVOURITES,DELETE_FAVOURITES} from '../actions/actionTypes'
+import {RECEIVE_PURCHASE,REQUEST_PURCHASE, FAILED_PURCHASE,UPDATE_FILTER_VALUE,UPDATE_PURCHASE_LIST,ADD_FAVOURITES,DELETE_FAVOURITES, UPDATE_NOTIFICATION} from '../actions/actionTypes'
 import {combineReducers} from 'redux'
 
 
@@ -10,6 +10,21 @@ function filterValue(state={},action){
                 [action.key]:action.value
             }
             
+        default:
+            return state
+    }
+}
+
+function notification(state={
+    visible:false,
+    title:''
+},action){
+    switch (action.type){
+        case UPDATE_NOTIFICATION:
+            return {
+                visible:action.value,
+                title:action.title
+            }
         default:
             return state
     }
@@ -75,7 +90,8 @@ export const reducer=
 combineReducers({
     filterValue,
     data,
-    favourites
+    favourites,
+    notification
 })
 
   

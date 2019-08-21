@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Text,View,FlatList,RefreshControl,Button,StyleSheet,TouchableOpacity } from 'react-native';
 import {connect} from 'react-redux'
-import {Purchase} from '../components'
-import { LIGHTBLUE, DARKBLUE, LIGHTGREY,BLUE,widthWindow, WHITE } from '../constant';
-import {updateChangeFilter,toggleFavourites} from '../actions'
+import {Purchase,Notification} from '../components'
+import { LIGHTBLUE, DARKBLUE, LIGHTGREY,BLUE,widthWindow, WHITE, heightWindow } from '../constant';
+import {updateChangeFilter,toggleFavourites,updateNotification} from '../actions'
 
 class Favorites extends Component {
   redirectSearch=()=>{
@@ -12,15 +12,23 @@ class Favorites extends Component {
       title: 'Поиск закупок',
     });
   }
+  _toggleFavourites=(number,flag)=>{
+    const {toggleFavourites,updateNotification}=this.props;
+    flag?updateNotification(true,'Закупка удалена из избранного'):updateNotification(true,'Закупка добавлена в избранное');
+    setTimeout(()=>{updateNotification(false)},3000)
+    toggleFavourites(number,flag)
+    console.log(heightWindow)
+}  
   
   render() {
     
-    const {titleContainer,titleText,mainContainer,noResult,noResultText,noResultDescription,button,buttonText}=style;
-    const {data:{list,total,isFetching},favourites,toggleFavourites}=this.props
+    const {mainContainer,noResult,noResultText,noResultDescription,button,buttonText,relative}=style;
+    const {data:{list,total,isFetching},favourites,toggleFavourites,notification}=this.props
     const flag=!favourites.length;
     return (
-      <View >
-              {!flag?
+      <View style={relative} >
+          <View>
+          {!flag?
               <FlatList
                     data={favourites}
                     renderItem={({item})=>{
@@ -35,7 +43,7 @@ class Favorites extends Component {
                                     title={method.name}
                                     price={price}
                                     isFavourites={favourites.filter(item=>item.number===number).length!==0}
-                                    toggleFavourites={toggleFavourites}
+                                    toggleFavourites={this._toggleFavourites}
                                 />
                             )
                     }
@@ -64,27 +72,26 @@ class Favorites extends Component {
                           <Text style={buttonText}>{'К поиску закупок'}</Text>
                     </TouchableOpacity>
                 </View>}
+          </View>
+          <Notification
+            isVisible={notification.visible}
+            title={notification.title}
+          />
             </View>
     );
   }
 }
 
 const style=StyleSheet.create({
-  mainContainer:{
-      marginBottom:50
-  },
-  titleContainer:{
-      flexDirection:'row',
-      justifyContent:'center',
-      marginTop:20,
-      paddingBottom:10
+  relative:{
+    flex: 1
   },
   noResult:{
     flexDirection:'column',
     justifyContent:"center",
     alignItems:'center',
     paddingHorizontal:45,
-    paddingTop:90
+    marginTop:90
   },
   noResultText:{
     fontSize:22,
@@ -123,13 +130,15 @@ const mapStateToProps=state=>{
   return{
     data:state.data,
     pageNumber:state.filterValue.pageNumber,
-    favourites:state.favourites
+    favourites:state.favourites,
+    notification:state.notification
   }
 }
 const mapStateToDispatch=(dispatch)=>{
   return{
       updateValueFilter:(value,flag)=>dispatch(updateChangeFilter(value,flag)),
-      toggleFavourites:(id,flag)=>dispatch(toggleFavourites(id,flag))
+      toggleFavourites:(id,flag)=>dispatch(toggleFavourites(id,flag)),
+      updateNotification:(value,title)=>dispatch(updateNotification(value,title))
   }
 }
 

@@ -1,26 +1,30 @@
 import React, { Component } from 'react'
 import { Text, View,StyleSheet,ScrollView,RefreshControl,FlatList } from 'react-native'
 import {connect} from 'react-redux'
-import {Purchase} from '../components'
-import { LIGHTBLUE } from '../constant';
-import {updateChangeFilter,toggleFavourites} from '../actions'
+import {Purchase,Notification} from '../components'
+import { LIGHTBLUE, widthWindow,heightWindow } from '../constant';
+import {updateChangeFilter,toggleFavourites,updateNotification} from '../actions'
 
 class PurchaseList extends Component {
     
     _onRefresh = () => {
         const {updateValueFilter,pageNumber}=this.props;
-        console.log(pageNumber+1)
         updateValueFilter({
             pageNumber:pageNumber+1
         },true);
         console.log(this.props);
-        
       }
+    _toggleFavourites=(number,flag)=>{
+        const {toggleFavourites,updateNotification}=this.props;
+        flag?updateNotification(true,'Закупка удалена из избранного'):updateNotification(true,'Закупка добавлена в избранное');
+        setTimeout(()=>{updateNotification(false)},3000)
+        toggleFavourites(number,flag)
+    }  
     render() {
-        const {data:{list,total,isFetching},favourites,toggleFavourites}=this.props
+        const {data:{list,total,isFetching},favourites,notification}=this.props
         const {titleContainer,titleText,mainContainer}=style;
         return (
-            <View >
+            <View style={mainContainer}>
                 <View style={titleContainer}>
                     <Text style={titleText}>Найдено закупок <Text style={[{color:LIGHTBLUE}]}>{total}</Text> </Text>
                 </View>
@@ -38,14 +42,13 @@ class PurchaseList extends Component {
                                     title={method.name}
                                     price={price}
                                     isFavourites={favourites.filter(item=>item.number===number).length!==0}
-                                    toggleFavourites={toggleFavourites}
+                                    toggleFavourites={this._toggleFavourites}
                                 />
                             )
                     }
 
                     }
                     keyExtractor={(item,index)=>index.toString()}
-                    style={mainContainer}
                     refreshControl={
                         <RefreshControl
                             refreshing={isFetching}
@@ -56,6 +59,11 @@ class PurchaseList extends Component {
                     onEndReached={this._onRefresh}
                 >
                 </FlatList>
+                <Notification
+                        isVisible={notification.visible}
+                         title={notification.title}
+                /> 
+                
             </View>
         )
     }
@@ -65,19 +73,21 @@ const mapStateToProps=state=>{
     return{
       data:state.data,
       pageNumber:state.filterValue.pageNumber,
-      favourites:state.favourites
+      favourites:state.favourites,
+      notification:state.notification
     }
   }
 const mapStateToDispatch=(dispatch)=>{
     return{
         updateValueFilter:(value,flag)=>dispatch(updateChangeFilter(value,flag)),
-        toggleFavourites:(id,flag)=>dispatch(toggleFavourites(id,flag))
+        toggleFavourites:(id,flag)=>dispatch(toggleFavourites(id,flag)),
+        updateNotification:(value,title)=>dispatch(updateNotification(value,title))
     }
 }
 
 const style=StyleSheet.create({
     mainContainer:{
-        marginBottom:50
+        flex: 1
     },
     titleContainer:{
         flexDirection:'row',

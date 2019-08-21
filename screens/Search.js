@@ -88,7 +88,8 @@ const styles=StyleSheet.create({
 const mapStateToProps=state=>{
   return{
     filterValue:state.filterValue,
-    data:state.data
+    data:state.data,
+    favourites:state.favourites
   }
 }
 

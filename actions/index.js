@@ -1,4 +1,4 @@
-import {UPDATE_CHECKBOX_VALUE,UPDATE_END_PRICE,UPDATE_START_PRICE,RECEIVE_PURCHASE,REQUEST_PURCHASE,FAILED_PURCHASE,UPDATE_FILTER_VALUE,UPDATE_PURCHASE_LIST,ADD_FAVOURITES,DELETE_FAVOURITES} from './actionTypes';
+import {UPDATE_CHECKBOX_VALUE,UPDATE_END_PRICE,UPDATE_START_PRICE,RECEIVE_PURCHASE,REQUEST_PURCHASE,FAILED_PURCHASE,UPDATE_FILTER_VALUE,UPDATE_PURCHASE_LIST,ADD_FAVOURITES,DELETE_FAVOURITES,UPDATE_NOTIFICATION} from './actionTypes';
 
 
 export const updateChangeFilter=(obj,flag=false)=>(dispatch)=>{
@@ -12,6 +12,14 @@ export const updateChangeFilter=(obj,flag=false)=>(dispatch)=>{
     }
     catch(error){
         console.log(error.message);
+    }
+}
+
+export const updateNotification=(value,title)=>{
+    return{
+        type:UPDATE_NOTIFICATION,
+        value,
+        title
     }
 }
 
