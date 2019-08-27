@@ -4,6 +4,7 @@ import {SearchBar, SearchButton, LawButtonContainer,SearchParametr,SearchParamet
 import { widthWindow, searchBarImage,LIGHTGREY,laws,parametrPrice,parametrDate} from '../constant';
 import {connect} from 'react-redux'
 import {getPurchase,updateChangeFilter} from '../actions'
+// import Realm from 'realm'
 
 
 class Screen extends Component {
